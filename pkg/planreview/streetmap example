@@ -1,0 +1,29 @@
+Here are some working headers that captured the streets
+
+HEADERS:
+---
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Cache-Control: max-age=0
+Connection: keep-alive
+Host: maps.littlerock.state.ar.us
+If-None-Match: 3c556a83
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.81 Safari/537.36
+
+
+Query String:
+---
+f: json
+returnGeometry: true
+spatialRel: esriSpatialRelIntersects
+maxAllowableOffset: 10
+geometry: {"xmin":1181663.2797933572,"ymin":162318.50668055596,"xmax":1185059.1131266907,"ymax":165120.5900138893,"spatialReference":{"wkid":102651,"latestWkid":3433}}
+geometryType: esriGeomeatryEnvelope
+inSR: 102651
+outFields: OBJECTID,MapName,AltDes,SCADD_Type,EditDate,EditorName,Shape.len
+outSR: 102651
+
+Response:
+{"displayFieldName":"MapName","fieldAliases":{"OBJECTID":"OBJECTID","MapName":"MapName","AltDes":"AltDes","SCADD_Type":"SCADD_Type","EditDate":"EditDate","EditorName":"EditorName","Shape.len":"Shape.len"},"geometryType":"esriGeometryPolyline","spatialReference":{"wkid":102651,"latestWkid":3433},"fields":[{"name":"OBJECTID","type":"esriFieldTypeOID","alias":"OBJECTID"},{"name":"MapName","type":"esriFieldTypeString","alias":"MapName","length":100},{"name":"AltDes","type":"esriFieldTypeString","alias":"AltDes","length":5},{"name":"SCADD_Type","type":"esriFieldTypeString","alias":"SCADD_Type","length":100},{"name":"EditDate","type":"esriFieldTypeDate","alias":"EditDate","length":36},{"name":"EditorName","type":"esriFieldTypeString","alias":"EditorName","length":25},{"name":"Shape.len","type":"esriFieldTypeDouble","alias":"Shape.len"}],"features":[{"attributes":{"OBJECTID":36,"MapName":"PEBBLE BEACH DR","AltDes":null,"SCADD_Type":"COLLECTOR","EditDate":null,"EditorName":null,"Shape.len":7092.2894101450584},"geometry":{"paths":[[[1186158,164420],[1185863,164386],[1185532,164314],[1185026,164280],[1184447,164306],[1184336,164357],[1184199,164456],[1184045,164452],[1183787,164391],[1183510,164273],[1183148,164178],[1183051,164115],[1182975,164019],[1182754,163522],[1182705,163450],[1182597,163397],[1182149,163324],[1182021,163361],[1181760,163533],[1181517,163592],[1181265,163807],[1181136,163862],[1180981,163870],[1180631,163826],[1180355,163837],[1179794,163703]]]}},{"attributes":{"OBJECTID":37,"MapName":"MONTVALE DR","AltDes":null,"SCADD_Type":"COLLECTOR","EditDate":null,"EditorName":null,"Shape.len":729.74791688555376},"geometry":{"paths":[[[1181972,162622],[1181985,162700],[1182126,163094],[1182146,163187],[1182149,163324]]]}},{"attributes":{"OBJECTID":39,"MapName":"DORADO BEACH DR","AltDes":null,"SCADD_Type":"COLLECTOR","EditDate":null,"EditorName":null,"Shape.len":4445.2053322896209},"geometry":{"paths":[[[1184841,162392],[1184460,162086],[1184333,162052],[1184209,162061],[1184069,162126],[1183963,162243],[1183924,162329],[1183858,162566],[1183841,162763],[1183810,162821],[1183762,162865],[1183664,162900],[1182891,162919],[1182758,162871],[1182582,162704],[1182486,162651],[1182398,162636],[1182064,162642],[1181886,162586],[1181755,162475],[1181475,161995]]]}},{"attributes":{"OBJECTID":604,"MapName":"HINSON RD","AltDes":null,"SCADD_Type":"MINOR ARTERIAL","EditDate":null,"EditorName":null,"Shape.len":15835.294702584686},"geometry":{"paths":[[[1191329,160092],[1186241,160288],[1186078,160316],[1185969,160358],[1185898,160406],[1185697,160607],[1185594,160809],[1185564,160963],[1185549,161513],[1185517,161648],[1185478,161731],[1185403,161824],[1184772,162468],[1184688,162624],[1184623,163113],[1184582,163288],[1184520,163444],[1184302,163849],[1184257,163981],[1184176,164351],[1184182,164531],[1184262,164795],[1184303,165129],[1184285,165285],[1184228,165392],[1184107,165534],[1183214,166219],[1183028,166386],[1182628,166691],[1182185,166917],[1181876,167151],[1181750,167227],[1180941,167514],[1180832,167576],[1180752,167651],[1180696,167730],[1180660,167811],[1180597,168043],[1180479,168213]]]}}]}
