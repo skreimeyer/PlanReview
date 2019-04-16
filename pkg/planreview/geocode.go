@@ -2,7 +2,9 @@ package planreview
 
 import (
 	"encoding/json"
-	"fmt"
+	"io/ioutil"
+	"net/http"
+	"net/url"
 )
 
 type spatialReference struct {
@@ -25,24 +27,40 @@ type candidates struct {
 	Attributes attributes `json:"attributes"`
 }
 
-type root struct {
+type gcResponse struct {
 	Spatialreference spatialReference `json:"spatialReference"`
 	Candidates       []candidates     `json:"candidates"`
 }
 
-// Main is my main man
-func main() {
-	// var result map[string]interface{}
-	var result root
-	testdata := []byte(`{"spatialReference":{"wkid":102651,"latestWkid":3433},"candidates":[{"address":"7801 KANIS RD, 72204","location":{"x":1204066.358307957,"y":147937.39795626889},"score":100,"attributes":{}},{"address":"7801 KANIS RD, 72204","location":{"x":1204169.6110534209,"y":148586.87696869907},"score":100,"attributes":{}},{"address":"7802 KANIS RD, 72204","location":{"x":1204172.8705882574,"y":148627.42274624179},"score":79,"attributes":{}}]}`)
-	jsonErr := json.Unmarshal(testdata, &result)
-	if jsonErr != nil {
-		panic(jsonErr)
+// Geocode takes an address string and returns the location matched by the PAGIS server
+func Geocode(addr string) location {
+	geoUrl, err := url.Parse("https://www.pagis.org/arcgis/rest/services/LOCATORS/CompositeAddressPtsRoadCL/GeocodeServer/findAddressCandidates")
+	if err != nil {
+		panic(err)
 	}
-	fmt.Println("\n struct = ")
-	fmt.Println(result)
-	fmt.Println("\nBold")
-	fmt.Println(result.Candidates)
-	fmt.Println("\nDaring")
-	fmt.Println(result.Candidates[0].Location)
+	params := url.Values{}
+	params.Add("SingleLine", addr)
+	params.Add("f", "json")
+	params.Add("outFields", "*")
+	params.Add("maxLocations", "3")
+	params.Add("outSR", "{\"wkid\":102651,\"latestWkid\":3433}")
+	geoUrl.RawQuery = params.Encode()
+
+	res, err := http.Get(geoUrl.String())
+	if err != nil {
+		panic(err)
+	}
+	geoData, err := ioutil.ReadAll(res.Body)
+	res.Body.Close()
+	if err != nil {
+		panic(err)
+	}
+
+	var geoJson gcResponse
+
+	jsonErr := json.Unmarshal(geoData, &geoJson)
+	if jsonErr != nil {
+		panic(err)
+	}
+	return geoJson.Candidates[0].Location
 }
