@@ -24,7 +24,7 @@ type Location struct {
 type candidates struct {
 	Address    string     `json:"address"`
 	Location   Location   `json:"location"`
-	Score      int        `json:"score"`
+	Score      float64    `json:"score"`
 	Attributes attributes `json:"attributes"`
 }
 
@@ -61,7 +61,7 @@ func Geocode(addr string) Location {
 
 	jsonErr := json.Unmarshal(geoData, &geoJSON)
 	if jsonErr != nil {
-		panic(err)
+		panic(jsonErr)
 	}
 	return geoJSON.Candidates[0].Location
 }
