@@ -52,10 +52,6 @@ type fieldAliases struct {
 	Proplookup  string `json:"PROPLOOKUP"`
 }
 
-// type spatialReference struct {
-// 	Wkid       int `json:"wkid"`
-// 	Latestwkid int `json:"latestWkid"`
-// }
 
 type attributes struct {
 	Objectid    int     `json:"OBJECTID"`
