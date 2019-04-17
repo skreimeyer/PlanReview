@@ -4,6 +4,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"image"
+	"image/png"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -51,7 +53,6 @@ type fieldAliases struct {
 	SchlDesc    string `json:"SCHL_DESC"`
 	Proplookup  string `json:"PROPLOOKUP"`
 }
-
 
 type attributes struct {
 	Objectid    int     `json:"OBJECTID"`
@@ -156,5 +157,55 @@ func FetchParcel(loc Location) [][]float64 {
 	if jsonErr != nil {
 		panic(err)
 	}
-	return parcel.Features[0].Geometry.Rings[0]
+	return parcel.Features[0].Geometry.Rings[0] // TODO: handle multiple rings
+}
+
+// FetchMap takes ring geometry as an argument, calculates the coordinates of an envelope with a 10% buffer and makes a GET request to the PAGIS server for a png image of the area.
+func FetchMap(ring [][]float64) image.Image {
+	// TODO split off envelope calculation into its own function
+	xmin, xmax := ring[0][0], ring[0][0]
+	ymin, ymax := ring[0][1], ring[0][1]
+	for _, e := range ring[1:] {
+		if e[0] < xmin {
+			xmin = e[0]
+		}
+		if e[0] > xmax {
+			xmax = e[0]
+		}
+		if e[1] < ymin {
+			ymin = e[1]
+		}
+		if e[1] > ymax {
+			ymax = e[1]
+		}
+	}
+	// buffer the envelope by 10% of total length
+	xadj := (xmax - xmin) * 0.1
+	yadj := (ymax - ymin) * 0.1
+	envXMin := xmin - xadj
+	envXMax := xmax + xadj
+	envYMin := ymin - yadj
+	envYMax := ymax + yadj
+	// now we can make the API call
+	mapURL, err := url.Parse("https://www.pagis.org/arcgis/rest/services/MAPS/AerialPhotos2018/MapServer/export")
+	if err != nil {
+		panic(err)
+	}
+	params := url.Values{}
+	params.Add("f", "image")
+	params.Add("format", "png")
+	params.Add("bbox", fmt.Sprintf("%f,%f,%f,%f", envXMin, envYMin, envXMax, envYMax))
+	params.Add("transparent", "false")
+	marURL.RawQuery = params.Encode()
+
+	res, err := http.Get(mapURL.String())
+	if err != nil {
+		panic(err)
+	}
+	mapImg, err := png.Decode(res.Body) // png image of our map
+	res.Body.Close()
+	if err != nil {
+		panic(err)
+	}
+	return mapImg
 }

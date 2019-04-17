@@ -1,0 +1,47 @@
+Request URL: https://www.pagis.org/arcgis/rest/services/MAPS/AerialPhotos2018/MapServer/export?bbox=1072197.0001691966%2C126733.80016455408%2C1316132.9998618276%2C261452.99999480258&bboxSR=&layers=&layerDefs=&size=&imageSR=&format=png&transparent=false&dpi=&time=&layerTimeOptions=&dynamicLayers=&gdbVersion=&mapScale=&rotation=&datumTransformations=&layerParameterValues=&mapRangeValues=&layerRangeValues=&f=image
+Request Method: GET
+Status Code: 304 Not Modified
+Remote Address: 12.50.21.42:443
+Referrer Policy: no-referrer-when-downgrade
+
+Access-Control-Allow-Origin: *
+Cache-Control: private, must-revalidate, max-age=0,no-cache
+Date: Tue, 16 Apr 2019 23:45:02 GMT
+ETag: c05c743b
+Server: Microsoft-IIS/7.5
+Server:
+Vary: Origin
+X-AspNet-Version: 4.0.30319
+X-Powered-By: ASP.NET
+
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Connection: keep-alive
+Cookie: slimstat_tracking_code=1495269id.5df518e505f76774f327ab9bf9e2322f; isfirst_land=false; isfirst=false
+Host: www.pagis.org
+If-None-Match: c05c743b
+Referer: https://www.pagis.org/arcgis/rest/services/MAPS/AerialPhotos2018/MapServer/export?bbox=1072197.0001691966%2C126733.80016455408%2C1316132.9998618276%2C261452.99999480258&bboxSR=&layers=&layerDefs=&size=&imageSR=&format=png&transparent=false&dpi=&time=&layerTimeOptions=&dynamicLayers=&gdbVersion=&mapScale=&rotation=&datumTransformations=&layerParameterValues=&mapRangeValues=&layerRangeValues=&f=html
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.81 Safari/537.36
+
+bbox: 1072197.0001691966,126733.80016455408,1316132.9998618276,261452.99999480258
+bboxSR:
+layers:
+layerDefs:
+size:
+imageSR:
+format: png
+transparent: false
+dpi:
+time:
+layerTimeOptions:
+dynamicLayers:
+gdbVersion:
+mapScale: 
+rotation:
+datumTransformations:
+layerParameterValues:
+mapRangeValues:
+layerRangeValues:
+f: image

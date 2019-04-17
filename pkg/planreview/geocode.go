@@ -18,9 +18,6 @@ type Location struct {
 	Y float64 `json:"y"`
 }
 
-// type attributes struct {
-// }
-
 type candidates struct {
 	Address    string     `json:"address"`
 	Location   Location   `json:"location"`
