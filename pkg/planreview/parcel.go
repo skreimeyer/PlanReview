@@ -160,33 +160,39 @@ func FetchParcel(loc Location) [][]float64 {
 	return parcel.Features[0].Geometry.Rings[0] // TODO: handle multiple rings
 }
 
-// FetchMap takes ring geometry as an argument, calculates the coordinates of an envelope with a 10% buffer and makes a GET request to the PAGIS server for a png image of the area.
-func FetchMap(ring [][]float64) image.Image {
-	// TODO split off envelope calculation into its own function
+// MakeEnvelope takes a geometry ring and a buffer radius (relative distance) as arguments, then calculates a rectangular bounding box which encloses the ring enlarged by the buffer
+func MakeEnvelope(ring [][]float64, r float64) (float64, float64, float64, float64) {
+	// set max and min to first X,Y values, respectively
 	xmin, xmax := ring[0][0], ring[0][0]
 	ymin, ymax := ring[0][1], ring[0][1]
-	for _, e := range ring[1:] {
-		if e[0] < xmin {
-			xmin = e[0]
+	for _, c := range ring[1:] { // iterate over coordinate pairs
+		if c[0] < xmin {
+			xmin = c[0]
 		}
-		if e[0] > xmax {
-			xmax = e[0]
+		if c[0] > xmax {
+			xmax = c[0]
 		}
-		if e[1] < ymin {
-			ymin = e[1]
+		if c[1] < ymin {
+			ymin = c[1]
 		}
-		if e[1] > ymax {
-			ymax = e[1]
+		if c[1] > ymax {
+			ymax = c[1]
 		}
 	}
-	// buffer the envelope by 10% of total length
-	xadj := (xmax - xmin) * 0.1
-	yadj := (ymax - ymin) * 0.1
-	envXMin := xmin - xadj
-	envXMax := xmax + xadj
-	envYMin := ymin - yadj
-	envYMax := ymax + yadj
-	// now we can make the API call
+	// multiply buffer by x and y deltas
+	xadj := (xmax - xmin) * r
+	yadj := (ymax - ymin) * r
+	// apply adjusted coordinates for our envelope
+	exMin := xmin - xadj
+	exMax := xmax + xadj
+	eyMin := ymin - yadj
+	eyMax := ymax + yadj
+	return exMin, eyMin, exMax, eyMax
+}
+
+// FetchMap takes ring geometry as an argument, calculates the coordinates of an envelope with a 10% buffer and makes a GET request to the PAGIS server for a png image of the area.
+func FetchMap(xMin, yMin, xMax, yMax float64) image.Image {
+	x1, y1, x2, y2 = xMin, yMin, xMax, yMax
 	mapURL, err := url.Parse("https://www.pagis.org/arcgis/rest/services/MAPS/AerialPhotos2018/MapServer/export")
 	if err != nil {
 		panic(err)
@@ -194,7 +200,7 @@ func FetchMap(ring [][]float64) image.Image {
 	params := url.Values{}
 	params.Add("f", "image")
 	params.Add("format", "png")
-	params.Add("bbox", fmt.Sprintf("%f,%f,%f,%f", envXMin, envYMin, envXMax, envYMax))
+	params.Add("bbox", fmt.Sprintf("%f,%f,%f,%f", x1, y1, x2, y2))
 	params.Add("transparent", "false")
 	marURL.RawQuery = params.Encode()
 
