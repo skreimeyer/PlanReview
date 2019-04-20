@@ -8,15 +8,6 @@ import (
 	"net/url"
 )
 
-// "bytes"
-// "encoding/json"
-// "fmt"
-// "image"
-// "image/png"
-// "io/ioutil"
-// "net/http"
-// "net/url"
-
 type fmFieldAliases struct {
 	Objectid                                       string `json:"OBJECTID"`
 	FldZone                                        string `json:"FLD_ZONE"`
