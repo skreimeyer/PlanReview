@@ -1,0 +1,41 @@
+Request URL: https://www.pagis.org/arcgis/rest/services/APPS/Apps_DFIRM/MapServer//dynamicLayer/query?f=json&returnGeometry=true&spatialRel=esriSpatialRelIntersects&maxAllowableOffset=1&geometry=%7B%22xmin%22%3A1205309.749893601%2C%22ymin%22%3A148613.82801585054%2C%22xmax%22%3A1205322.249893601%2C%22ymax%22%3A148626.32801585054%2C%22spatialReference%22%3A%7B%22wkid%22%3A102651%2C%22latestWkid%22%3A3433%7D%7D&geometryType=esriGeometryEnvelope&inSR=102651&outFields=OBJECTID%2CFLD_ZONE%2CLEGEND%2CPANEL%2CFIRM_PAN%2CFloodplainAdministratorContacts_CityName%2CFloodplainAdministratorContacts_FloodplainAdmin%2CFloodplainAdministratorContacts_Phone%2CFloodplainAdministratorContacts_Email%2COW_NAME%2CPROPLOOKUP%2CORIG_FID%2CFID_UnionFloodZonesPanelsParcels&outSR=102651&layer=%7B%22source%22%3A%7B%22type%22%3A%22mapLayer%22%2C%22mapLayerId%22%3A21%7D%7D
+Request Method: GET
+Status Code: 200 OK
+Remote Address: 12.50.21.42:443
+Referrer Policy: no-referrer-when-downgrade
+
+Access-Control-Allow-Origin: *
+Cache-Control: private, must-revalidate, max-age=0,no-cache
+Content-Encoding: gzip
+Content-Length: 951
+Content-Type: text/plain;charset=utf-8
+Date: Fri, 19 Apr 2019 18:01:16 GMT
+ETag: 1554799690
+Server: Microsoft-IIS/7.5
+Server: 
+Vary: Origin
+X-AspNet-Version: 4.0.30319
+X-Powered-By: ASP.NET
+
+Accept: */*
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Connection: keep-alive
+Content-Type: application/x-www-form-urlencoded
+Cookie: slimstat_tracking_code=1495269id.5df518e505f76774f327ab9bf9e2322f; isfirst_land=false; isfirst=false
+Host: www.pagis.org
+Referer: https://www.pagis.org/webapps/wab/floodmap/
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.81 Safari/537.36
+X-Requested-With: XMLHttpRequest
+
+
+f: json
+returnGeometry: true
+spatialRel: esriSpatialRelIntersects
+maxAllowableOffset: 1
+geometry: {"xmin":1205309.749893601,"ymin":148613.82801585054,"xmax":1205322.249893601,"ymax":148626.32801585054,"spatialReference":{"wkid":102651,"latestWkid":3433}}
+geometryType: esriGeometryEnvelope
+inSR: 102651
+outFields: OBJECTID,FLD_ZONE,LEGEND,PANEL,FIRM_PAN,FloodplainAdministratorContacts_CityName,FloodplainAdministratorContacts_FloodplainAdmin,FloodplainAdministratorContacts_Phone,FloodplainAdministratorContacts_Email,OW_NAME,PROPLOOKUP,ORIG_FID,FID_UnionFloodZonesPanelsParcels
+outSR: 102651
+layer: {"source":{"type":"mapLayer","mapLayerId":21}}

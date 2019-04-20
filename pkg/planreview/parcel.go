@@ -192,7 +192,7 @@ func MakeEnvelope(ring [][]float64, r float64) (float64, float64, float64, float
 
 // FetchMap takes ring geometry as an argument, calculates the coordinates of an envelope with a 10% buffer and makes a GET request to the PAGIS server for a png image of the area.
 func FetchMap(xMin, yMin, xMax, yMax float64) image.Image {
-	x1, y1, x2, y2 = xMin, yMin, xMax, yMax
+	x1, y1, x2, y2 := xMin, yMin, xMax, yMax
 	mapURL, err := url.Parse("https://www.pagis.org/arcgis/rest/services/MAPS/AerialPhotos2018/MapServer/export")
 	if err != nil {
 		panic(err)
@@ -202,7 +202,7 @@ func FetchMap(xMin, yMin, xMax, yMax float64) image.Image {
 	params.Add("format", "png")
 	params.Add("bbox", fmt.Sprintf("%f,%f,%f,%f", x1, y1, x2, y2))
 	params.Add("transparent", "false")
-	marURL.RawQuery = params.Encode()
+	mapURL.RawQuery = params.Encode()
 
 	res, err := http.Get(mapURL.String())
 	if err != nil {
