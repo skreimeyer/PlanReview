@@ -1,5 +1,13 @@
 package planreview
 
+import (
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"net/http"
+	"net/url"
+)
+
 // "bytes"
 // "encoding/json"
 // "fmt"
@@ -60,18 +68,49 @@ type fmResponse struct {
 	Fieldaliases     fmFieldAliases     `json:"fieldAliases"`
 	Geometrytype     string             `json:"geometryType"`
 	Spatialreference fmSpatialReference `json:"spatialReference"`
-	Features         []features         `json:"features"`
+	Features         []fmFeatures       `json:"features"`
 }
 
-//  QUERY STRING
-// f: json
-// returnGeometry: true
-// spatialRel: esriSpatialRelIntersects
-// maxAllowableOffset: 1
-// geometry: {"xmin":1205309.749893601,"ymin":148613.82801585054,"xmax":1205322.249893601,"ymax":148626.32801585054,"spatialReference":{"wkid":102651,"latestWkid":3433}}
-// geometryType: esriGeometryEnvelope
-// inSR: 102651
-// outFields: OBJECTID,FLD_ZONE,LEGEND,PANEL,FIRM_PAN,FloodplainAdministratorContacts_CityName,FloodplainAdministratorContacts_FloodplainAdmin,FloodplainAdministratorContacts_Phone,FloodplainAdministratorContacts_Email,OW_NAME,PROPLOOKUP,ORIG_FID,FID_UnionFloodZonesPanelsParcels
-// outSR: 102651
-// layer: {"source":{"type":"mapLayer","mapLayerId":21}}
-//
+// FloodData takes an envelope as an argument, queries the PAGIS DFIRM map server and returns an array of stirings of flood
+func FloodData(e Envelope) []string {
+	floodURL, err := url.Parse("https://www.pagis.org/arcgis/rest/services/APPS/Apps_DFIRM/MapServer//dynamicLayer/query")
+	if err != nil {
+		panic(err)
+	}
+	params := url.Values{}
+	params.Add("f", "json")
+	params.Add("returnGeometry", "true")
+	params.Add("spatialRel", "esriSpatialRelIntersects")
+	params.Add("maxAllowableOffset", "1")
+	params.Add("geometry", fmt.Sprintf("{\"xmin\":%f,\"ymin\":%f,\"xmax\":%f,\"ymax\":%f,\"spatialReference\":{\"wkid\":102651,\"latestWkid\":3433}}", e.Min.X, e.Min.Y, e.Max.X, e.Max.Y))
+	params.Add("esriGeometryType", "esriGeometryEnvelope")
+	params.Add("inSR", "102651")
+	params.Add("outFields", "OBJECTID,FLD_ZONE,LEGEND,PANEL,FIRM_PAN,FloodplainAdministratorContacts_CityName,FloodplainAdministratorContacts_FloodplainAdmin,FloodplainAdministratorContacts_Phone,FloodplainAdministratorContacts_Email,OW_NAME,PROPLOOKUP,ORIG_FID,FID_UnionFloodZonesPanelsParcels")
+	params.Add("layer", "{\"source\":{\"type\":\"mapLayer\",\"mapLayerId\":21}}")
+	floodURL.RawQuery = params.Encode()
+
+	res, err := http.Get(floodURL.String())
+	if err != nil {
+		panic(err)
+	}
+	floodData, err := ioutil.ReadAll(res.Body)
+	res.Body.Close()
+	if err != nil {
+		panic(err)
+	}
+
+	var floodJSON fmResponse
+
+	jsonErr := json.Unmarshal(floodData, &floodJSON)
+	if jsonErr != nil {
+		panic(jsonErr)
+	}
+
+	var zones []string
+
+	for _, feat := range floodJSON.Features {
+		zones = append(zones, feat.Attributes.FldZone)
+	}
+
+	return zones
+}

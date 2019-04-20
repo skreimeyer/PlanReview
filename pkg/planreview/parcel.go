@@ -114,6 +114,18 @@ type pResponse struct {
 	Features         []features       `json:"features"`
 }
 
+// Envelope is a pair of coordinate points which describe the lower-left and upper-right corners of a rectangle on a map.
+type Envelope struct {
+	Min Point
+	Max Point
+}
+
+// Point is a coordinate pair (lat and lon)
+type Point struct {
+	X float64
+	Y float64
+}
+
 // FetchParcel takes a location ie {x:float64,Y:float64} and returns the first ESRI "ring" object given by the PAGIS REST API. A ring is a 2-dimensional array of x,y coordinates which describe the points of a (irregular) polygon.
 func FetchParcel(loc Location) [][]float64 {
 	parcelURL, err := url.Parse("https://pagis.org/arcgis/rest/services/APPS/OperationalLayers/MapServer/52/query")
@@ -161,7 +173,7 @@ func FetchParcel(loc Location) [][]float64 {
 }
 
 // MakeEnvelope takes a geometry ring and a buffer radius (relative distance) as arguments, then calculates a rectangular bounding box which encloses the ring enlarged by the buffer
-func MakeEnvelope(ring [][]float64, r float64) (float64, float64, float64, float64) {
+func MakeEnvelope(ring [][]float64, r float64) Envelope {
 	// set max and min to first X,Y values, respectively
 	xmin, xmax := ring[0][0], ring[0][0]
 	ymin, ymax := ring[0][1], ring[0][1]
@@ -187,12 +199,11 @@ func MakeEnvelope(ring [][]float64, r float64) (float64, float64, float64, float
 	exMax := xmax + xadj
 	eyMin := ymin - yadj
 	eyMax := ymax + yadj
-	return exMin, eyMin, exMax, eyMax
+	return Envelope{Point{exMin, eyMin}, Point{exMax, eyMax}}
 }
 
 // FetchMap takes ring geometry as an argument, calculates the coordinates of an envelope with a 10% buffer and makes a GET request to the PAGIS server for a png image of the area.
-func FetchMap(xMin, yMin, xMax, yMax float64) image.Image {
-	x1, y1, x2, y2 := xMin, yMin, xMax, yMax
+func FetchMap(e Envelope) image.Image {
 	mapURL, err := url.Parse("https://www.pagis.org/arcgis/rest/services/MAPS/AerialPhotos2018/MapServer/export")
 	if err != nil {
 		panic(err)
@@ -200,7 +211,7 @@ func FetchMap(xMin, yMin, xMax, yMax float64) image.Image {
 	params := url.Values{}
 	params.Add("f", "image")
 	params.Add("format", "png")
-	params.Add("bbox", fmt.Sprintf("%f,%f,%f,%f", x1, y1, x2, y2))
+	params.Add("bbox", fmt.Sprintf("%f,%f,%f,%f", e.Min.X, e.Min.Y, e.Max.X, e.Max.Y))
 	params.Add("transparent", "false")
 	mapURL.RawQuery = params.Encode()
 
