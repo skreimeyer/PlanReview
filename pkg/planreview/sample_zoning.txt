@@ -1,0 +1,35 @@
+Request URL: https://maps.littlerock.state.ar.us/arcgis/rest/services/Zoning/MapServer/12/query?f=json&returnGeometry=true&spatialRel=esriSpatialRelIntersects&maxAllowableOffset=1&geometry=%7B%22xmin%22%3A1226989.5792521406%2C%22ymin%22%3A152192.38108654166%2C%22xmax%22%3A1227002.0792521406%2C%22ymax%22%3A152204.88108654166%2C%22spatialReference%22%3A%7B%22wkid%22%3A102651%2C%22latestWkid%22%3A3433%7D%7D&geometryType=esriGeometryEnvelope&inSR=102651&outFields=OBJECTID%2CPARCEL_ID%2CGIS_PIN%2CCAMA_PIN%2CCAMA_DATE%2CPARCEL_LGL%2CSRCE_DATE%2COW_NAME%2COW_ADD%2COW_ADD2%2COW_CITY%2COW_STATE%2COW_ZIP%2CPH_RD_NUM%2CPH_PRE_DIR%2CPH_RD_NAM%2CPH_RD_TYP%2CPH_UNIT%2CPH_CTY_NM%2CPH_ZIP%2CPH_ADD%2CTYPE%2CIMP_COUNT%2CASSESS_DAT%2CASSESS_VAL%2CIMP_VAL%2CLAND_VAL%2CTOTAL_VAL%2CNBHD%2CS_T_R%2CSCHL_CODE%2CSCHL_DESC%2CSUB_NAME%2CLOT%2CBLOCK%2CACRE_AREA%2CCALC_ACRE%2CPROPLOOKUP%2CShape.STArea()%2CShape.STLength()&outSR=102651
+Request Method: GET
+Status Code: 200 OK
+Remote Address: 170.94.26.5:443
+Referrer Policy: no-referrer-when-downgrade
+
+Cache-Control: private, must-revalidate, max-age=0
+Content-Encoding: gzip
+Content-Length: 1443
+Content-Type: text/plain;charset=utf-8
+Date: Tue, 23 Apr 2019 02:31:21 GMT
+ETag: 6e0834d4
+Server: Microsoft-IIS/7.5
+Server: 
+X-AspNet-Version: 2.0.50727
+X-Powered-By: ASP.NET
+
+Accept: */*
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+Connection: keep-alive
+Host: maps.littlerock.state.ar.us
+Referer: https://maps.littlerock.state.ar.us/webapps/LR_Zoning_Viewer/
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.81 Safari/537.36
+X-Requested-With: XMLHttpRequest
+
+f: json
+returnGeometry: true
+spatialRel: esriSpatialRelIntersects
+maxAllowableOffset: 1
+geometry: {"xmin":1226989.5792521406,"ymin":152192.38108654166,"xmax":1227002.0792521406,"ymax":152204.88108654166,"spatialReference":{"wkid":102651,"latestWkid":3433}}
+geometryType: esriGeometryEnvelope
+inSR: 102651
+outFields: OBJECTID,PARCEL_ID,GIS_PIN,CAMA_PIN,CAMA_DATE,PARCEL_LGL,SRCE_DATE,OW_NAME,OW_ADD,OW_ADD2,OW_CITY,OW_STATE,OW_ZIP,PH_RD_NUM,PH_PRE_DIR,PH_RD_NAM,PH_RD_TYP,PH_UNIT,PH_CTY_NM,PH_ZIP,PH_ADD,TYPE,IMP_COUNT,ASSESS_DAT,ASSESS_VAL,IMP_VAL,LAND_VAL,TOTAL_VAL,NBHD,S_T_R,SCHL_CODE,SCHL_DESC,SUB_NAME,LOT,BLOCK,ACRE_AREA,CALC_ACRE,PROPLOOKUP,Shape.STArea(),Shape.STLength()
+outSR: 102651
