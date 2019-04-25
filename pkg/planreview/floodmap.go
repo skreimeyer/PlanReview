@@ -67,8 +67,8 @@ type FloodHaz int
 
 // Flood Hazard Area classifications
 const (
-	X    = iota
-	FIVE // 0.2% annual chance
+	X    FloodHaz = iota
+	FIVE          // 0.2% annual chance
 	A
 	AE
 	FLOODWAY
