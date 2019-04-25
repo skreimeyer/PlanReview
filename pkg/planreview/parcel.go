@@ -82,7 +82,7 @@ type attributes struct {
 	Nbhd        int     `json:"NBHD"`
 	STR         string  `json:"S_T_R"`
 	SchlCode    int     `json:"SCHL_CODE"`
-	AcreArea    int     `json:"ACRE_AREA"`
+	AcreArea    float64 `json:"ACRE_AREA"`
 	SubName     string  `json:"SUB_NAME"`
 	Lot         string  `json:"LOT"`
 	Block       string  `json:"BLOCK"`
@@ -167,7 +167,7 @@ func FetchParcel(loc Location) [][]float64 {
 
 	jsonErr := json.Unmarshal(parcelData, &parcel)
 	if jsonErr != nil {
-		panic(err)
+		panic(jsonErr)
 	}
 	return parcel.Features[0].Geometry.Rings[0] // TODO: handle multiple rings
 }

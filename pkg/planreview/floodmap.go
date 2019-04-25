@@ -62,8 +62,21 @@ type fmResponse struct {
 	Features         []fmFeatures       `json:"features"`
 }
 
+// FloodHaz is an enumeration of valid flood hazard area designations. Its use is an alternative to a hashmap
+type FloodHaz int
+
+// Flood Hazard Area classifications
+const (
+	X    = iota
+	FIVE // 0.2% annual chance
+	A
+	AE
+	FLOODWAY
+	LEVEE
+)
+
 // FloodData takes an envelope as an argument, queries the PAGIS DFIRM map server and returns an array of stirings of flood
-func FloodData(e Envelope) []string {
+func FloodData(e Envelope) []FloodHaz {
 	floodURL, err := url.Parse("https://www.pagis.org/arcgis/rest/services/APPS/Apps_DFIRM/MapServer//dynamicLayer/query")
 	if err != nil {
 		panic(err)
@@ -97,11 +110,19 @@ func FloodData(e Envelope) []string {
 		panic(jsonErr)
 	}
 
-	var zones []string
+	zName := make(map[string]FloodHaz)
+	zName["The Point Clicked has a 1% Annual Chance Flood Hazard, Outside Floodway, Zone AE"] = AE
+	zName["The Point Clicked has a 1% Annual Chance Flood Hazard, Inside Floodway, Zone AE"] = FLOODWAY
+	zName["The Point Clicked has a 0.2% Annual Chance Flood Hazard"] = FIVE
+	zName["The Point Clicked is Outside 1% Annual Floodplain, Zone X"] = X
+	zName["The Point Clicked is Outside 1% Annual Floodplain, Zone X (Protected by Levee)"] = LEVEE
+	zName["The Point Clicked has a 1% Annual Chance Flood Hazard, Zone A"] = A
+
+	var hazards []FloodHaz
 
 	for _, feat := range floodJSON.Features {
-		zones = append(zones, feat.Attributes.FldZone)
+		hazards = append(hazards, zName[feat.Attributes.Legend])
 	}
 
-	return zones
+	return hazards
 }
