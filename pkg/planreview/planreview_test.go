@@ -44,7 +44,7 @@ func TestFlood(t *testing.T) {
 			}
 		}
 		if found == false {
-			t.Errorf("failed to locate target zone:%v within zones:%v", k, zones)
+			t.Errorf("failed to locate target zone: %v within zones:%v", k, zones)
 		}
 	}
 }

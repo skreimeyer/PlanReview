@@ -75,6 +75,10 @@ const (
 	LEVEE
 )
 
+func (f FloodHaz) String() string {
+	return [...]string{"X", "FIVE", "A", "AE", "FLOODWAY", "LEVEE"}[f]
+}
+
 // FloodData takes an envelope as an argument, queries the PAGIS DFIRM map server and returns an array of stirings of flood
 func FloodData(e Envelope) []FloodHaz {
 	floodURL, err := url.Parse("https://www.pagis.org/arcgis/rest/services/APPS/Apps_DFIRM/MapServer//dynamicLayer/query")
