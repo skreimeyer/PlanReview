@@ -15,8 +15,8 @@ Essential helper scripts (see json2gostruct) are complete and have made handling
 Currently, the implementation is very weak. Error handling and edge cases are basically not considered. The web front end does not exist yet.
 
 ## TODO
-[X] - Implement an API to fetch useful information from GIS servers
-[ ] - Write the logic to template public works review comments
-[ ] - Provide a simple web interface to interact with the API and view templated comments
-[ ] - Make the code less bad
-[ ] - Deploy to Heroku
+- [X] Implement an API to fetch useful information from GIS servers
+- [ ] Write the logic to template public works review comments
+- [ ] Provide a simple web interface to interact with the API and view templated comments
+- [ ] Make the code less bad
+- [ ] Deploy to Heroku
