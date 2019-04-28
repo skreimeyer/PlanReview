@@ -1,4 +1,15 @@
-package planreview
+// Package esri handles interaction with GIS servers. Specifically, it provides
+// functions which act on PAGIS.org web services and littlerock.gov servers.
+// This includes:
+// - Geocoding
+// - Obtaining land parcel geometry
+// - Finding flood hazard areas within a geometric envelope
+// - Finding streets and their classification within an envelope
+// - Finding zoning classification of a parcel
+// There are a large number of mostly redundant structs which exist to keep some
+// coherence of the highly varied JSON responses which the GIS servers provide
+// to the queries.
+package esri
 
 import (
 	"encoding/json"
@@ -12,7 +23,8 @@ type spatialReference struct {
 	Latestwkid int `json:"latestWkid"`
 }
 
-// Location is a coordinate pair representing the centroid of an addressed parcel.
+// Location is a coordinate pair representing the centroid of an addressed
+// parcel.
 type Location struct {
 	X float64 `json:"x"`
 	Y float64 `json:"y"`
@@ -30,7 +42,8 @@ type gcResponse struct {
 	Candidates       []candidates     `json:"candidates"`
 }
 
-// Geocode takes an address string and returns the location matched by the PAGIS server
+// Geocode takes an address string and returns the location matched by the
+// PAGIS server
 func Geocode(addr string) Location {
 	geoURL, err := url.Parse("https://www.pagis.org/arcgis/rest/services/LOCATORS/CompositeAddressPtsRoadCL/GeocodeServer/findAddressCandidates")
 	if err != nil {

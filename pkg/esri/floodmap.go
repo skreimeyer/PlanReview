@@ -1,4 +1,4 @@
-package planreview
+package esri
 
 import (
 	"encoding/json"
