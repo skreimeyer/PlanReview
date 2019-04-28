@@ -48,3 +48,22 @@ func TestFlood(t *testing.T) {
 		}
 	}
 }
+
+func TestZone(t *testing.T) {
+	gc := Geocode("12800 Chenal Parkway")
+	zone := FetchZone(gc)
+	if zone != "PCD" {
+		t.Errorf("zoning test failed. Target: %s\t Fetched: %s", "PCD", zone)
+	}
+}
+
+func TestCaseFile(t *testing.T) {
+	gc := Geocode("12800 Chenal Parkway")
+	ring := FetchParcel(gc)
+	env := MakeEnvelope(ring, 0.01)
+	zone := FetchCases(env)
+	target := "Z-6199-A"
+	if zone != target {
+		t.Errorf("zoning test failed. Target: %s\t Fetched: %s", target, zone)
+	}
+}
