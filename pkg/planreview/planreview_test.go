@@ -4,6 +4,8 @@ import (
 	"testing"
 )
 
+// TODO Convert all of these to table-based tests
+
 func TestGeocode(t *testing.T) {
 	precision := 1.0
 	loc := Location{
