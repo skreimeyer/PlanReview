@@ -173,6 +173,7 @@ func FetchParcel(loc Location) [][]float64 {
 }
 
 // MakeEnvelope takes a geometry ring and a buffer radius (relative distance) as arguments, then calculates a rectangular bounding box which encloses the ring enlarged by the buffer
+// TODO: This needs a sensible failure mechanism
 func MakeEnvelope(ring [][]float64, r float64) Envelope {
 	// set max and min to first X,Y values, respectively
 	xmin, xmax := ring[0][0], ring[0][0]

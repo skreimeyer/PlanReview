@@ -67,3 +67,30 @@ func TestCaseFile(t *testing.T) {
 		t.Errorf("zoning test failed. Target: %s\t Fetched: %s", target, zone)
 	}
 }
+
+func TestTrans(t *testing.T) {
+	gc := Geocode("2724 Fair Park Blvd")
+	ring := FetchParcel(gc)
+	env := MakeEnvelope(ring, 0.2)
+	streets := FetchRoads(env)
+	target := []Street{
+		Street{
+			"FAIR PARK BLVD",
+			"MINOR ARTERIAL",
+		},
+		Street{
+			"W 20TH ST",
+			"COLLECTOR",
+		},
+	}
+	if !func(s []Street, t Street) bool {
+		for _, x := range s {
+			if x == t {
+				return true
+			}
+		}
+		return false
+	}(streets, target[0]) {
+		t.Errorf("transportation test failed. Target: %s\t Fetched: %s", target, streets)
+	}
+}
