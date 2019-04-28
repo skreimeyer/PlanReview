@@ -45,7 +45,8 @@ type gcResponse struct {
 // Geocode takes an address string and returns the location matched by the
 // PAGIS server
 func Geocode(addr string) Location {
-	geoURL, err := url.Parse("https://www.pagis.org/arcgis/rest/services/LOCATORS/CompositeAddressPtsRoadCL/GeocodeServer/findAddressCandidates")
+	geoURL, err := url.Parse(
+		"https://www.pagis.org/arcgis/rest/services/LOCATORS/CompositeAddressPtsRoadCL/GeocodeServer/findAddressCandidates")
 	if err != nil {
 		panic(err)
 	}

@@ -62,7 +62,8 @@ type fmResponse struct {
 	Features         []fmFeatures       `json:"features"`
 }
 
-// FloodHaz is an enumeration of valid flood hazard area designations. Its use is an alternative to a hashmap
+// FloodHaz is an enumeration of valid flood hazard area designations. Its use
+// is an alternative to a hashmap
 type FloodHaz int
 
 // Flood Hazard Area classifications
@@ -79,7 +80,8 @@ func (f FloodHaz) String() string {
 	return [...]string{"X", "FIVE", "A", "AE", "FLOODWAY", "LEVEE"}[f]
 }
 
-// FloodData takes an envelope as an argument, queries the PAGIS DFIRM map server and returns an array of stirings of flood
+// FloodData takes an envelope as an argument, queries the PAGIS DFIRM map
+// server and returns an array of stirings of flood
 func FloodData(e Envelope) []FloodHaz {
 	floodURL, err := url.Parse("https://www.pagis.org/arcgis/rest/services/APPS/Apps_DFIRM/MapServer//dynamicLayer/query")
 	if err != nil {

@@ -161,9 +161,9 @@ type zoning struct {
 	Features         []zoningfeatures       `json:"features"`
 }
 
-// FetchZone takes an envelope (two points defining a rectangle which enclose a parcel) and returns a Zone, which is
-// a code for land uses permitted by municipal ordinance
-// example:
+// FetchZone takes an envelope (two points defining a rectangle which enclose a
+// parcel) and returns a Zone, which is a code for land uses permitted by
+// municipal ordinance. example:
 //	R2 - single family residential
 //	PRD - Planned Residential Development
 func FetchZone(l Location) string {

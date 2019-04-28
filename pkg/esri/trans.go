@@ -63,7 +63,8 @@ type Street struct {
 	Class string
 }
 
-// FetchRoads takes an envelope as an argument and returns a list of street names and their classifications
+// FetchRoads takes an envelope as an argument and returns a list of street
+// names and their classifications.
 // TODO: this is HIGHLY sensitive to the envelope buffer. Absolute widths are probably necessary.
 func FetchRoads(e Envelope) []Street {
 	tURL, err := url.Parse("https://maps.littlerock.state.ar.us/arcgis/rest/services/Master_Street_Plan/MapServer/0/query")
