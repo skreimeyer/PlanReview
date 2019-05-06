@@ -3,8 +3,10 @@
 package comment
 
 import (
+	"fmt"
 	"os"
 	"text/template"
+	"time"
 )
 
 type master struct {
@@ -27,6 +29,7 @@ type meta struct {
 	GP          bool
 	Franchise   bool
 	Storm       bool
+	Wall        bool
 }
 
 type geo struct {
@@ -38,13 +41,15 @@ type streetClass int
 
 // Street classifications
 const (
-	RES streetClass = iota
-	MINRES
-	COLL
-	COMM
-	MINART
-	ART
+	Residential streetClass = iota
+	MinorResidential
+	Collector
+	Commercial
+	MinorArterial
+	Arterial
 )
+
+//go:generate stringer -type=streetClass
 
 type street struct {
 	Name  string
@@ -68,6 +73,8 @@ const (
 	LEVEE
 )
 
+//go:generate stringer -type=FloodHaz
+
 type flood struct {
 	Class    []FloodHaz
 	Floodway bool
@@ -79,16 +86,8 @@ type zone struct {
 	Multifam bool
 }
 
-/*
-functions needed:
-gpfee -> $120 + $60/acre
-bump -> i++
-state -> if ARDOT==true for any
-isFH -> if flood.class contains AE/A/Floodway
-*/
-
 // Render takes a `main` struct and produces a templated response letter
-func Render(m master) {
+func Render(m master) error {
 	funcMap := template.FuncMap{
 		"bump": func(i int) int {
 			return i + 1
@@ -121,13 +120,22 @@ func Render(m master) {
 			}
 			return false
 		},
+		"today": func() string {
+			return fmt.Sprint(time.Now().Date())
+		},
 	}
-	t, err := template.New("CommentLetter").Funcs(funcMap).ParseFiles("civil.tmpl")
+	t, err := template.New("civil.tmpl").Funcs(funcMap).ParseFiles("civil.tmpl")
 	if err != nil {
 		panic(err)
 	}
-	err = t.Execute(os.Stdout, m)
+	f, err := os.Create("../../tmp/letter")
 	if err != nil {
 		panic(err)
 	}
+	defer f.Close()
+	err = t.Execute(f, m)
+	if err != nil {
+		panic(err)
+	}
+	return nil
 }
