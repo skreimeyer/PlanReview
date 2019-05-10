@@ -124,7 +124,7 @@ func Render(m master) error {
 			return fmt.Sprint(time.Now().Date())
 		},
 	}
-	t, err := template.New("civil.tmpl").Funcs(funcMap).ParseFiles("civil.tmpl")
+	t, err := template.New("civil.gotmpl").Funcs(funcMap).ParseFiles("civil.gotmpl")
 	if err != nil {
 		panic(err)
 	}
