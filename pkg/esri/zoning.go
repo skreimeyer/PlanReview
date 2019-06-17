@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 // STRUCTS FOR CASE FILE ONLY
@@ -166,10 +167,10 @@ type zoning struct {
 // municipal ordinance. example:
 //	R2 - single family residential
 //	PRD - Planned Residential Development
-func FetchZone(l Location) string {
+func FetchZone(l Location) (string, error) {
 	zURL, err := url.Parse("https://maps.littlerock.state.ar.us/arcgis/rest/services/Zoning/MapServer/32/query")
 	if err != nil {
-		panic(err)
+		return "",err
 	}
 	params := url.Values{}
 	params.Add("f", "json")
@@ -186,29 +187,40 @@ func FetchZone(l Location) string {
 
 	res, err := http.Get(zURL.String())
 	if err != nil {
-		panic(err)
+		return "",err
 	}
 	zData, err := ioutil.ReadAll(res.Body)
 	res.Body.Close()
 	if err != nil {
-		panic(err)
+		return "",err
 	}
 
 	var zJSON zoning
 
-	jsonErr := json.Unmarshal(zData, &zJSON)
-	if jsonErr != nil {
-		panic(jsonErr)
+	err = json.Unmarshal(zData, &zJSON)
+	if err != nil {
+		return "",err
 	}
-	return zJSON.Features[0].Attributes.GisLrGisplanZoningPolyZoning
+	if len(zJSON.Features) > 1 {
+		return zJSON.Features[0].Attributes.GisLrGisplanZoningPolyZoning, nil
+	}
+	return "",nil
+
+}
+
+// IsMultifam is a trivial function to determine if zoning is multifamily (ie) 
+// anything zoned M24, etc. Does not capture planned residential developments
+// which would require deep inspection of zoning files.
+func IsMultifam(z string) bool {
+	return strings.HasPrefix(z, "M")
 }
 
 // FetchCases returns all the case files associated with a parcel.
 // TODO: fetch a list of cases instead of the first
-func FetchCases(e Envelope) string {
+func FetchCases(e Envelope) (string, error) {
 	cURL, err := url.Parse("https://maps.littlerock.state.ar.us/arcgis/rest/services/Zoning/MapServer/7/query")
 	if err != nil {
-		panic(err)
+		return "", err
 	}
 	params := url.Values{}
 	params.Add("f", "json")
@@ -225,19 +237,22 @@ func FetchCases(e Envelope) string {
 
 	res, err := http.Get(cURL.String())
 	if err != nil {
-		panic(err)
+		return "", err
 	}
 	cData, err := ioutil.ReadAll(res.Body)
 	res.Body.Close()
 	if err != nil {
-		panic(err)
+		return "", err
 	}
 
 	var cJSON caseFiles
 
-	jsonErr := json.Unmarshal(cData, &cJSON)
-	if jsonErr != nil {
-		panic(jsonErr)
+	err = json.Unmarshal(cData, &cJSON)
+	if err != nil {
+		return "", err
 	}
-	return cJSON.Features[0].Attributes.GisLrGisplanZNumberLabel
+	if len(cJSON.Features) > 1 {
+		return cJSON.Features[0].Attributes.GisLrGisplanZNumberLabel, nil
+	}
+	return "", nil
 }

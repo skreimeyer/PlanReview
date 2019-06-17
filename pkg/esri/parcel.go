@@ -126,11 +126,18 @@ type Point struct {
 	Y float64
 }
 
-// FetchParcel takes a location ie {x:float64,Y:float64} and returns the first ESRI "ring" object given by the PAGIS REST API. A ring is a 2-dimensional array of x,y coordinates which describe the points of a (irregular) polygon.
-func FetchParcel(loc Location) [][]float64 {
+// Ring is a convenience type
+type Ring [][]float64
+
+// FetchParcel takes a location ie {x:float64,Y:float64} and returns the first
+// ESRI "ring" object given by the PAGIS REST API. A ring is a 2-dimensional
+// array of x,y coordinates which describe the points of a (irregular) polygon.
+// FetchParcel also retunrs a float64 (acres) because
+func FetchParcel(loc Location) (pResponse, error){
+	var parcel pResponse // initialize for early return
 	parcelURL, err := url.Parse("https://pagis.org/arcgis/rest/services/APPS/OperationalLayers/MapServer/52/query")
 	if err != nil {
-		panic(err)
+		return parcel, err
 	}
 	// TODO: discard all the cruft
 	params := url.Values{}
@@ -149,12 +156,12 @@ func FetchParcel(loc Location) [][]float64 {
 
 	res, err := http.Get(parcelURL.String())
 	if err != nil {
-		panic(err)
+		return parcel, err
 	}
 	parcelData, err := ioutil.ReadAll(res.Body)
 	res.Body.Close()
 	if err != nil {
-		panic(err)
+		return parcel, err
 	}
 
 	// scrape off the dojo junk from our JSON
@@ -163,18 +170,22 @@ func FetchParcel(loc Location) [][]float64 {
 
 	parcelData = parcelData[i:t]
 
-	var parcel pResponse
-
-	jsonErr := json.Unmarshal(parcelData, &parcel)
-	if jsonErr != nil {
-		panic(jsonErr)
+	err = json.Unmarshal(parcelData, &parcel)
+	if err != nil {
+		return parcel, err
 	}
-	return parcel.Features[0].Geometry.Rings[0] // TODO: handle multiple rings
+	return parcel, nil// TODO: handle multiple rings
+}
+
+// GetRing probably doesn't need to be its own function. Really just here for
+// ease of refactoring...
+func GetRing(p pResponse) Ring {
+	return p.Features[0].Geometry.Rings[0]
 }
 
 // MakeEnvelope takes a geometry ring and a buffer radius (relative distance) as arguments, then calculates a rectangular bounding box which encloses the ring enlarged by the buffer
 // TODO: This needs a sensible failure mechanism
-func MakeEnvelope(ring [][]float64, r float64) Envelope {
+func MakeEnvelope(ring Ring, r float64) Envelope {
 	// set max and min to first X,Y values, respectively
 	xmin, xmax := ring[0][0], ring[0][0]
 	ymin, ymax := ring[0][1], ring[0][1]

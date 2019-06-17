@@ -22,11 +22,12 @@ func TestParcel(t *testing.T) {
 	precision := 1.0
 	ring := [][]float64{{1229652.12, 151364.85}, {1229614.06, 151350.96}, {1229353.22, 151395.22}, {1229376.18, 151533.24}, {1229671.79, 151483.09}, {1229652.12, 151364.85}}
 	cityHall := Geocode("500 W Markham")
-	pr := FetchParcel(cityHall)
-	for i := range pr {
-		for j := range pr[i] {
-			if ring[i][j]-pr[i][j] > precision {
-				t.Errorf("fetching rings failed\nindex:%d,%d\texpected:%f\tfound:%f", i, j, ring[i][j], pr[i][j])
+	pr,_ := FetchParcel(cityHall)
+	r := GetRing(pr)
+	for i := range r {
+		for j := range r[i] {
+			if ring[i][j]-r[i][j] > precision {
+				t.Errorf("fetching rings failed\nindex:%d,%d\texpected:%f\tfound:%f", i, j, ring[i][j], r[i][j])
 			}
 		}
 	}
@@ -34,9 +35,10 @@ func TestParcel(t *testing.T) {
 
 func TestFlood(t *testing.T) {
 	gc := Geocode("1500 Westpark Dr")
-	ring := FetchParcel(gc)
+	par,_ := FetchParcel(gc)
+	ring := GetRing(par)
 	env := MakeEnvelope(ring, 0.05)
-	zones := FloodData(env)
+	zones,_ := FloodData(env)
 	knownZones := []FloodHaz{AE, FLOODWAY, FIVE}
 	for _, k := range knownZones {
 		found := false
@@ -53,7 +55,7 @@ func TestFlood(t *testing.T) {
 
 func TestZone(t *testing.T) {
 	gc := Geocode("12800 Chenal Parkway")
-	zone := FetchZone(gc)
+	zone,_ := FetchZone(gc)
 	if zone != "PCD" {
 		t.Errorf("zoning test failed. Target: %s\t Fetched: %s", "PCD", zone)
 	}
@@ -61,9 +63,10 @@ func TestZone(t *testing.T) {
 
 func TestCaseFile(t *testing.T) {
 	gc := Geocode("12800 Chenal Parkway")
-	ring := FetchParcel(gc)
+	par,_ := FetchParcel(gc)
+	ring := GetRing(par)
 	env := MakeEnvelope(ring, 0.01)
-	zone := FetchCases(env)
+	zone,_ := FetchCases(env)
 	target := "Z-6199-A"
 	if zone != target {
 		t.Errorf("zoning test failed. Target: %s\t Fetched: %s", target, zone)
@@ -72,9 +75,10 @@ func TestCaseFile(t *testing.T) {
 
 func TestTrans(t *testing.T) {
 	gc := Geocode("2724 Fair Park Blvd")
-	ring := FetchParcel(gc)
+	par,_ := FetchParcel(gc)
+	ring := GetRing(par)
 	env := MakeEnvelope(ring, 0.2)
-	streets := FetchRoads(env)
+	streets,_ := FetchRoads(env)
 	target := []Street{
 		Street{
 			"FAIR PARK BLVD",

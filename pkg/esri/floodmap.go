@@ -81,11 +81,12 @@ func (f FloodHaz) String() string {
 }
 
 // FloodData takes an envelope as an argument, queries the PAGIS DFIRM map
-// server and returns an array of stirings of flood
-func FloodData(e Envelope) []FloodHaz {
+// server and returns an array of strings of flood zones
+func FloodData(e Envelope) ([]FloodHaz, error) {
+	var hazards []FloodHaz
 	floodURL, err := url.Parse("https://www.pagis.org/arcgis/rest/services/APPS/Apps_DFIRM/MapServer//dynamicLayer/query")
 	if err != nil {
-		panic(err)
+		return hazards, err
 	}
 	params := url.Values{}
 	params.Add("f", "json")
@@ -101,19 +102,19 @@ func FloodData(e Envelope) []FloodHaz {
 
 	res, err := http.Get(floodURL.String())
 	if err != nil {
-		panic(err)
+		return hazards, err
 	}
 	floodData, err := ioutil.ReadAll(res.Body)
 	res.Body.Close()
 	if err != nil {
-		panic(err)
+		return hazards, err
 	}
 
 	var floodJSON fmResponse
 
 	jsonErr := json.Unmarshal(floodData, &floodJSON)
 	if jsonErr != nil {
-		panic(jsonErr)
+		return hazards, err
 	}
 
 	zName := make(map[string]FloodHaz)
@@ -124,11 +125,32 @@ func FloodData(e Envelope) []FloodHaz {
 	zName["The Point Clicked is Outside 1% Annual Floodplain, Zone X (Protected by Levee)"] = LEVEE
 	zName["The Point Clicked has a 1% Annual Chance Flood Hazard, Zone A"] = A
 
-	var hazards []FloodHaz
-
 	for _, feat := range floodJSON.Features {
 		hazards = append(hazards, zName[feat.Attributes.Legend])
 	}
 
-	return hazards
+	return hazards, nil
+}
+
+// InFloodway is a simple function that 
+func InFloodway(fh []FloodHaz) bool {
+	for _,f := range fh {
+		if f == FLOODWAY {
+			return true
+		}
+	}
+	return false
+}
+
+// Unique filters redundant FloodHaz zones
+func Unique(fh []FloodHaz) []FloodHaz {
+	keys := make(map[FloodHaz]bool)
+	out := []FloodHaz{}
+	for _,f := range fh {
+		if _,val := keys[f]; !val {
+			keys[f] = true
+			out = append(out,f)
+		}
+	}
+	return out
 }

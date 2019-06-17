@@ -3,21 +3,26 @@
 package comment
 
 import (
+	"bytes"
 	"fmt"
-	"os"
 	"text/template"
 	"time"
+
+	"github.com/skreimeyer/PlanReview/pkg/esri"
 )
 
-type master struct {
-	Meta   meta
-	Geo    geo
-	Street []street
-	Flood  flood
-	Zone   zone
+// Master is the struct passed to the template. It hold other structs for
+// the sake of brevity.
+type Master struct {
+	Meta   Meta
+	Geo    Geo
+	Street []esri.Street
+	Flood  Flood
+	Zone   Zone
 }
 
-type meta struct {
+// Meta contains all information about the application itself.
+type Meta struct {
 	Sub         bool
 	AppName     string
 	AppTitle    string
@@ -32,62 +37,65 @@ type meta struct {
 	Wall        bool
 }
 
-type geo struct {
+// Geo is a container for geocoding information.
+type Geo struct {
 	Address string
 	Acres   float64
 }
 
-type streetClass int
+// StreetClass is an enum of types of streets
+// type StreetClass int
 
-// Street classifications
-const (
-	Residential streetClass = iota
-	MinorResidential
-	Collector
-	Commercial
-	MinorArterial
-	Arterial
-)
+// // Street classifications
+// const (
+// 	Residential StreetClass = iota
+// 	MinorResidential
+// 	Collector
+// 	Commercial
+// 	MinorArterial
+// 	Arterial
+// )
 
-//go:generate stringer -type=streetClass
+// //go:generate stringer -type=streetClass
+// // Street refers to a specific road
+// type Street struct {
+// 	Name  string
+// 	Class StreetClass
+// 	Row   int
+// 	Alt   bool
+// 	ARDOT bool
+// }
 
-type street struct {
-	Name  string
-	Class streetClass
-	Row   int
-	Alt   bool
-	ARDOT bool
-}
+// // FloodHaz is an enumeration of valid flood hazard area designations. Its use
+// // is an alternative to a hashmap
+// type FloodHaz int
 
-// FloodHaz is an enumeration of valid flood hazard area designations. Its use
-// is an alternative to a hashmap
-type FloodHaz int
+// // Flood Hazard Area classifications
+// const (
+// 	X    FloodHaz = iota
+// 	FIVE          // 0.2% annual chance
+// 	A
+// 	AE
+// 	FLOODWAY
+// 	LEVEE
+// )
 
-// Flood Hazard Area classifications
-const (
-	X    FloodHaz = iota
-	FIVE          // 0.2% annual chance
-	A
-	AE
-	FLOODWAY
-	LEVEE
-)
 
-//go:generate stringer -type=FloodHaz
-
-type flood struct {
-	Class    []FloodHaz
+// Flood contains a list of flood hazard area designations
+type Flood struct {
+	Class    []esri.FloodHaz
 	Floodway bool
 }
 
-type zone struct {
+// Zone defines the zoning code of a parcel
+type Zone struct {
 	Class    string
 	File     string
 	Multifam bool
 }
 
-// Render takes a `main` struct and produces a templated response letter
-func Render(m master) error {
+// Render takes a `master` struct and produces a templated response letter
+func Render(m Master) (string, error) {
 	funcMap := template.FuncMap{
 		"bump": func(i int) int {
 			return i + 1
@@ -104,7 +112,7 @@ func Render(m master) error {
 				return 120 + 60*(a-1)
 			}
 		},
-		"state": func(streets []street) bool {
+		"state": func(streets []esri.Street) bool {
 			for _, s := range streets {
 				if s.ARDOT {
 					return true
@@ -112,9 +120,9 @@ func Render(m master) error {
 			}
 			return false
 		},
-		"isFH": func(f flood) bool {
+		"isFH": func(f Flood) bool {
 			for _, z := range f.Class {
-				if z == A || z == AE || z == FLOODWAY {
+				if z == esri.A || z == esri.AE || z == esri.FLOODWAY {
 					return true
 				}
 			}
@@ -126,16 +134,12 @@ func Render(m master) error {
 	}
 	t, err := template.New("civil.gotmpl").Funcs(funcMap).ParseFiles("civil.gotmpl")
 	if err != nil {
-		panic(err)
+		return "", err
 	}
-	f, err := os.Create("../../tmp/letter")
+	buf := new(bytes.Buffer)
+	err = t.Execute(buf, m)
 	if err != nil {
-		panic(err)
+		return "", err
 	}
-	defer f.Close()
-	err = t.Execute(f, m)
-	if err != nil {
-		panic(err)
-	}
-	return nil
+	return buf.String(), nil
 }
