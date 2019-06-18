@@ -5,14 +5,14 @@
 		{
 			"checksumSHA1": "hz28FPBGgZpld0JpsP6SVDYAXF4=",
 			"path": "github.com/skreimeyer/PlanReview/pkg/comment",
-			"revision": "c17e49177162250c506b3b0374ee702f4d338c5a",
-			"revisionTime": "2019-06-18T02:05:23Z"
+			"revision": "163d42e53632ed59e4668539713258febd5a65e9",
+			"revisionTime": "2019-06-18T02:09:04Z"
 		},
 		{
-			"checksumSHA1": "RiFQ6px1FS/xEKMwQDZtNR5JZGs=",
+			"checksumSHA1": "MLhLivlk5iTKCIFN0bTTfgZKwg0=",
 			"path": "github.com/skreimeyer/PlanReview/pkg/esri",
-			"revision": "c17e49177162250c506b3b0374ee702f4d338c5a",
-			"revisionTime": "2019-06-18T02:05:23Z"
+			"revision": "163d42e53632ed59e4668539713258febd5a65e9",
+			"revisionTime": "2019-06-18T02:09:04Z"
 		}
 	],
 	"rootPath": "github.com/skreimeyer/PlanReview"
