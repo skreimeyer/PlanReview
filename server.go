@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"github.com/skreimeyer/PlanReview/pkg/comment"
 	"github.com/skreimeyer/PlanReview/pkg/esri"
 	"html/template"
@@ -116,9 +117,9 @@ func main() {
 	})
 
 	// Serve
-
+	port := os.Getenv("PORT")
 	fmt.Println("serving...")
-	err := http.ListenAndServe(":80", nil)
+	err := http.ListenAndServe(port, nil)
 	if err != nil {
 		fmt.Println(err)
 	}
