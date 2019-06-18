@@ -119,7 +119,7 @@ func main() {
 	// Serve
 	port := os.Getenv("PORT")
 	fmt.Println("serving...")
-	err := http.ListenAndServe(port, nil)
+	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		fmt.Println(err)
 	}
