@@ -118,7 +118,7 @@ func main() {
 	// Serve
 
 	fmt.Println("serving...")
-	err := http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(":80", nil)
 	if err != nil {
 		fmt.Println(err)
 	}
