@@ -183,7 +183,7 @@ func GetRing(p pResponse) Ring {
 	if len(p.Features) > 0 && len(p.Features[0].Geometry.Rings) > 0 {
 		return p.Features[0].Geometry.Rings[0]
 	}
-	return Ring{[]float64{[]float64{0.0, 0.0}}}
+	return Ring{[][]float64{{0.0, 0.0},}}
 }
 
 // MakeEnvelope takes a geometry ring and a buffer radius (relative distance) as arguments, then calculates a rectangular bounding box which encloses the ring enlarged by the buffer

@@ -125,9 +125,9 @@ func FetchRoads(e Envelope) ([]Street, error) {
 			Alt:   isAlt(f.Attributes.Altdes),
 			ARDOT: isAlt(f.Attributes.Altdes), // this is a VERY weak inference
 		}
-		sts = append(result, st)
+		sts = append(sts, st)
 	}
-	return result, nil
+	return sts, nil
 
 }
 
