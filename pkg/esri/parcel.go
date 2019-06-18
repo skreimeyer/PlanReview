@@ -133,7 +133,7 @@ type Ring [][]float64
 // ESRI "ring" object given by the PAGIS REST API. A ring is a 2-dimensional
 // array of x,y coordinates which describe the points of a (irregular) polygon.
 // FetchParcel also retunrs a float64 (acres) because
-func FetchParcel(loc Location) (pResponse, error){
+func FetchParcel(loc Location) (pResponse, error) {
 	var parcel pResponse // initialize for early return
 	parcelURL, err := url.Parse("https://pagis.org/arcgis/rest/services/APPS/OperationalLayers/MapServer/52/query")
 	if err != nil {
@@ -174,13 +174,16 @@ func FetchParcel(loc Location) (pResponse, error){
 	if err != nil {
 		return parcel, err
 	}
-	return parcel, nil// TODO: handle multiple rings
+	return parcel, nil // TODO: handle multiple rings
 }
 
 // GetRing probably doesn't need to be its own function. Really just here for
 // ease of refactoring...
 func GetRing(p pResponse) Ring {
-	return p.Features[0].Geometry.Rings[0]
+	if len(p.Features) > 0 && len(p.Features[0].Geometry.Rings) > 0 {
+		return p.Features[0].Geometry.Rings[0]
+	}
+	return Ring{[]float64{[]float64{0.0, 0.0}}}
 }
 
 // MakeEnvelope takes a geometry ring and a buffer radius (relative distance) as arguments, then calculates a rectangular bounding box which encloses the ring enlarged by the buffer

@@ -12,7 +12,7 @@ func TestGeocode(t *testing.T) {
 		X: 1229504.418500146,
 		Y: 151453.58653979315,
 	}
-	gc := Geocode("500 W Markham")
+	gc, _ := Geocode("500 W Markham")
 	if gc.X-loc.X > precision || gc.Y-loc.Y > precision {
 		t.Errorf("geocode failed\nexpected: %f, %f\t got: %f, %f", loc.X, loc.Y, gc.X, gc.Y)
 	}
@@ -22,7 +22,7 @@ func TestParcel(t *testing.T) {
 	precision := 1.0
 	ring := [][]float64{{1229652.12, 151364.85}, {1229614.06, 151350.96}, {1229353.22, 151395.22}, {1229376.18, 151533.24}, {1229671.79, 151483.09}, {1229652.12, 151364.85}}
 	cityHall := Geocode("500 W Markham")
-	pr,_ := FetchParcel(cityHall)
+	pr, _ := FetchParcel(cityHall)
 	r := GetRing(pr)
 	for i := range r {
 		for j := range r[i] {
@@ -34,11 +34,11 @@ func TestParcel(t *testing.T) {
 }
 
 func TestFlood(t *testing.T) {
-	gc := Geocode("1500 Westpark Dr")
-	par,_ := FetchParcel(gc)
+	gc, _ := Geocode("1500 Westpark Dr")
+	par, _ := FetchParcel(gc)
 	ring := GetRing(par)
 	env := MakeEnvelope(ring, 0.05)
-	zones,_ := FloodData(env)
+	zones, _ := FloodData(env)
 	knownZones := []FloodHaz{AE, FLOODWAY, FIVE}
 	for _, k := range knownZones {
 		found := false
@@ -54,19 +54,19 @@ func TestFlood(t *testing.T) {
 }
 
 func TestZone(t *testing.T) {
-	gc := Geocode("12800 Chenal Parkway")
-	zone,_ := FetchZone(gc)
+	gc, _ := Geocode("12800 Chenal Parkway")
+	zone, _ := FetchZone(gc)
 	if zone != "PCD" {
 		t.Errorf("zoning test failed. Target: %s\t Fetched: %s", "PCD", zone)
 	}
 }
 
 func TestCaseFile(t *testing.T) {
-	gc := Geocode("12800 Chenal Parkway")
-	par,_ := FetchParcel(gc)
+	gc, _ := Geocode("12800 Chenal Parkway")
+	par, _ := FetchParcel(gc)
 	ring := GetRing(par)
 	env := MakeEnvelope(ring, 0.01)
-	zone,_ := FetchCases(env)
+	zone, _ := FetchCases(env)
 	target := "Z-6199-A"
 	if zone != target {
 		t.Errorf("zoning test failed. Target: %s\t Fetched: %s", target, zone)
@@ -74,11 +74,11 @@ func TestCaseFile(t *testing.T) {
 }
 
 func TestTrans(t *testing.T) {
-	gc := Geocode("2724 Fair Park Blvd")
-	par,_ := FetchParcel(gc)
+	gc, _ := Geocode("2724 Fair Park Blvd")
+	par, _ := FetchParcel(gc)
 	ring := GetRing(par)
 	env := MakeEnvelope(ring, 0.2)
-	streets,_ := FetchRoads(env)
+	streets, _ := FetchRoads(env)
 	target := []Street{
 		Street{
 			"FAIR PARK BLVD",

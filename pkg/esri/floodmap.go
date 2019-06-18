@@ -112,8 +112,8 @@ func FloodData(e Envelope) ([]FloodHaz, error) {
 
 	var floodJSON fmResponse
 
-	jsonErr := json.Unmarshal(floodData, &floodJSON)
-	if jsonErr != nil {
+	err = json.Unmarshal(floodData, &floodJSON)
+	if err != nil {
 		return hazards, err
 	}
 
@@ -132,9 +132,9 @@ func FloodData(e Envelope) ([]FloodHaz, error) {
 	return hazards, nil
 }
 
-// InFloodway is a simple function that 
+// InFloodway is a simple function that
 func InFloodway(fh []FloodHaz) bool {
-	for _,f := range fh {
+	for _, f := range fh {
 		if f == FLOODWAY {
 			return true
 		}
@@ -146,10 +146,10 @@ func InFloodway(fh []FloodHaz) bool {
 func Unique(fh []FloodHaz) []FloodHaz {
 	keys := make(map[FloodHaz]bool)
 	out := []FloodHaz{}
-	for _,f := range fh {
-		if _,val := keys[f]; !val {
+	for _, f := range fh {
+		if _, val := keys[f]; !val {
 			keys[f] = true
-			out = append(out,f)
+			out = append(out, f)
 		}
 	}
 	return out

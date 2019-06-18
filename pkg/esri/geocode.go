@@ -13,6 +13,7 @@ package esri
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -44,11 +45,12 @@ type gcResponse struct {
 
 // Geocode takes an address string and returns the location matched by the
 // PAGIS server
-func Geocode(addr string) Location {
+func Geocode(addr string) (Location, error) {
+	var loc Location
 	geoURL, err := url.Parse(
 		"https://www.pagis.org/arcgis/rest/services/LOCATORS/CompositeAddressPtsRoadCL/GeocodeServer/findAddressCandidates")
 	if err != nil {
-		panic(err)
+		return loc, err
 	}
 	params := url.Values{}
 	params.Add("SingleLine", addr)
@@ -60,19 +62,22 @@ func Geocode(addr string) Location {
 
 	res, err := http.Get(geoURL.String())
 	if err != nil {
-		panic(err)
+		return loc, err
 	}
 	geoData, err := ioutil.ReadAll(res.Body)
 	res.Body.Close()
 	if err != nil {
-		panic(err)
+		return loc, err
 	}
 
 	var geoJSON gcResponse
 
-	jsonErr := json.Unmarshal(geoData, &geoJSON)
-	if jsonErr != nil {
-		panic(jsonErr)
+	err = json.Unmarshal(geoData, &geoJSON)
+	if err != nil {
+		return loc, err
 	}
-	return geoJSON.Candidates[0].Location
+	if len(geoJSON.Candidates) >= 1 {
+		return geoJSON.Candidates[0].Location, nil
+	}
+	return loc, errors.New("No candidates found")
 }

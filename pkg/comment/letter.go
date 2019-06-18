@@ -43,44 +43,6 @@ type Geo struct {
 	Acres   float64
 }
 
-// StreetClass is an enum of types of streets
-// type StreetClass int
-
-// // Street classifications
-// const (
-// 	Residential StreetClass = iota
-// 	MinorResidential
-// 	Collector
-// 	Commercial
-// 	MinorArterial
-// 	Arterial
-// )
-
-// //go:generate stringer -type=streetClass
-// // Street refers to a specific road
-// type Street struct {
-// 	Name  string
-// 	Class StreetClass
-// 	Row   int
-// 	Alt   bool
-// 	ARDOT bool
-// }
-
-// // FloodHaz is an enumeration of valid flood hazard area designations. Its use
-// // is an alternative to a hashmap
-// type FloodHaz int
-
-// // Flood Hazard Area classifications
-// const (
-// 	X    FloodHaz = iota
-// 	FIVE          // 0.2% annual chance
-// 	A
-// 	AE
-// 	FLOODWAY
-// 	LEVEE
-// )
-
-
 // Flood contains a list of flood hazard area designations
 type Flood struct {
 	Class    []esri.FloodHaz

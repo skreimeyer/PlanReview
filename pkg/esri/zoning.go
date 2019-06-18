@@ -170,7 +170,7 @@ type zoning struct {
 func FetchZone(l Location) (string, error) {
 	zURL, err := url.Parse("https://maps.littlerock.state.ar.us/arcgis/rest/services/Zoning/MapServer/32/query")
 	if err != nil {
-		return "",err
+		return "", err
 	}
 	params := url.Values{}
 	params.Add("f", "json")
@@ -187,28 +187,28 @@ func FetchZone(l Location) (string, error) {
 
 	res, err := http.Get(zURL.String())
 	if err != nil {
-		return "",err
+		return "", err
 	}
 	zData, err := ioutil.ReadAll(res.Body)
 	res.Body.Close()
 	if err != nil {
-		return "",err
+		return "", err
 	}
 
 	var zJSON zoning
 
 	err = json.Unmarshal(zData, &zJSON)
 	if err != nil {
-		return "",err
+		return "", err
 	}
-	if len(zJSON.Features) > 1 {
+	if len(zJSON.Features) > 0 {
 		return zJSON.Features[0].Attributes.GisLrGisplanZoningPolyZoning, nil
 	}
-	return "",nil
+	return "", nil
 
 }
 
-// IsMultifam is a trivial function to determine if zoning is multifamily (ie) 
+// IsMultifam is a trivial function to determine if zoning is multifamily (ie)
 // anything zoned M24, etc. Does not capture planned residential developments
 // which would require deep inspection of zoning files.
 func IsMultifam(z string) bool {
@@ -251,7 +251,7 @@ func FetchCases(e Envelope) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	if len(cJSON.Features) > 1 {
+	if len(cJSON.Features) > 0 {
 		return cJSON.Features[0].Attributes.GisLrGisplanZNumberLabel, nil
 	}
 	return "", nil

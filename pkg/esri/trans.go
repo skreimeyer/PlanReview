@@ -84,9 +84,10 @@ type Street struct {
 // names and their classifications.
 // TODO: this is HIGHLY sensitive to the envelope buffer. Absolute widths are probably necessary.
 func FetchRoads(e Envelope) ([]Street, error) {
+	var sts []Street
 	tURL, err := url.Parse("https://maps.littlerock.state.ar.us/arcgis/rest/services/Master_Street_Plan/MapServer/0/query")
 	if err != nil {
-		panic(err)
+		return sts, err
 	}
 	params := url.Values{}
 	params.Add("f", "json")
@@ -101,31 +102,30 @@ func FetchRoads(e Envelope) ([]Street, error) {
 
 	res, err := http.Get(tURL.String())
 	if err != nil {
-		return []Street{Street{}},err
+		return sts, err
 	}
 	tData, err := ioutil.ReadAll(res.Body)
 	res.Body.Close()
 	if err != nil {
-		return []Street{Street{}},err
+		return sts, err
 	}
 
 	var tJSON trans
 
 	err = json.Unmarshal(tData, &tJSON)
 	if err != nil {
-		return []Street{Street{}},err
+		return sts, err
 	}
-	var result []Street
 	for _, f := range tJSON.Features {
 		class := deString(f.Attributes.ScaddType)
 		st := Street{
-		Name: f.Attributes.Mapname,
-		Class: class,
-		Row: calcRow(class),
-		Alt: isAlt(f.Attributes.Altdes),
-		ARDOT: isAlt(f.Attributes.Altdes), // this is a VERY weak inference
-	}
-		result = append(result, st)
+			Name:  f.Attributes.Mapname,
+			Class: class,
+			Row:   calcRow(class),
+			Alt:   isAlt(f.Attributes.Altdes),
+			ARDOT: isAlt(f.Attributes.Altdes), // this is a VERY weak inference
+		}
+		sts = append(result, st)
 	}
 	return result, nil
 

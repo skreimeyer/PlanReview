@@ -56,19 +56,26 @@ func main() {
 			Wall:        wl,
 		}
 		// Geocode
-		gc := esri.Geocode(r.FormValue("Address")) //esri.Location
-		par, err := esri.FetchParcel(gc)           //esri.Parcel
+		gc, err := esri.Geocode(r.FormValue("Address")) //esri.Location
 		if err != nil {
-			res.Warnings = append(res.Warnings, "Failed to fetch parcel data.")
+			res.Warnings = append(res.Warnings, "Failed to geocode.", err.Error())
+		}
+		par, err := esri.FetchParcel(gc) //esri.Parcel
+		if err != nil {
+			res.Warnings = append(res.Warnings, "Failed to fetch parcel data.", err.Error())
+		}
+		acr := 0.0
+		if len(par.Features) >= 1 {
+			acr = par.Features[0].Attributes.CalcAcre
 		}
 		env := esri.MakeEnvelope(esri.GetRing(par), 0.05)
 		streets, err := esri.FetchRoads(env)
 		if err != nil {
-			res.Warnings = append(res.Warnings, "Failed to fetch street data.")
+			res.Warnings = append(res.Warnings, "Failed to fetch street data.", err.Error())
 		}
 		geo := comment.Geo{
 			Address: r.FormValue("Address"),
-			Acres:   par.Features[0].Attributes.CalcAcre,
+			Acres:   acr,
 		}
 		fldzn, err := esri.FloodData(env) // []FloodHaz
 		fldzn = esri.Unique(fldzn)
@@ -79,11 +86,11 @@ func main() {
 		}
 		zCode, err := esri.FetchZone(gc)
 		if err != nil {
-			res.Warnings = append(res.Warnings, "Failed to fetch zoning.")
+			res.Warnings = append(res.Warnings, "Failed to fetch zoning.", err.Error())
 		}
 		zNum, err := esri.FetchCases(env)
 		if err != nil {
-			res.Warnings = append(res.Warnings, "Failed to find case number.")
+			res.Warnings = append(res.Warnings, "Failed to find case number.", err.Error())
 		}
 		mf := esri.IsMultifam(zCode)
 		zone := comment.Zone{
@@ -101,7 +108,7 @@ func main() {
 		// write template
 		letter, err := comment.Render(master)
 		if err != nil {
-			res.Warnings = append(res.Warnings, "Failed to write template.")
+			res.Warnings = append(res.Warnings, "Failed to write template.", err.Error())
 			fmt.Println(err)
 		}
 		res.Letter = letter
