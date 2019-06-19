@@ -1,0 +1,33 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Plan Review</title>
+  <meta name="description" content="Plan Review">
+  <meta name="author" content="Samuel Kreimeyer">
+
+  <link rel="stylesheet" href="static/styles.css">
+  <script defer src="static/scripts.js"></script>
+</head>
+
+<body>
+	<div class="row">
+		<div class="column column-20">
+			<h2>Errors</h2>
+			<ol>
+				{{range $_,$w := .Warnings}}
+				<li>{{$w}}</li>
+				{{end}}
+			</ol>
+		</div>
+		<div class="column column-50">
+			<h1>Comment Letter</h1>
+			<pre>
+			{{.Letter}}
+		</pre>
+		</div>
+	</div>
+</body>
+</html>

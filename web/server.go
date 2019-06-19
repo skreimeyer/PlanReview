@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"github.com/skreimeyer/PlanReview/pkg/comment"
 	"github.com/skreimeyer/PlanReview/pkg/esri"
 	"html/template"
@@ -19,7 +20,7 @@ type result struct {
 func main() {
 	// Main page
 
-	tmpl := template.Must(template.ParseFiles("index.html", "letter.html"))
+	tmpl := template.Must(template.ParseFiles("static/index.html", "static/letter.html"))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		tmpl.ExecuteTemplate(w, "index.html", nil)
@@ -116,9 +117,9 @@ func main() {
 	})
 
 	// Serve
-
+	port := os.Getenv("PORT")
 	fmt.Println("serving...")
-	err := http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		fmt.Println(err)
 	}

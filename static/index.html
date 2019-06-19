@@ -1,0 +1,51 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Plan Review</title>
+  <meta name="description" content="Plan Review">
+  <meta name="author" content="Samuel Kreimeyer">
+
+  <link rel="stylesheet" href="static/styles.css">
+  <script defer src="static/scripts.js"></script>
+</head>
+
+<body>
+<div class="row">
+<div class="column column-50 column-offset-25">
+	<h1>Create a Review Letter</h1>
+	<form method="POST" action="letter">
+		<label>Project Address:</label><br />
+		<input type="text" name="Address"><br />
+		<label>Subdivision:</label><br />
+		<input type="checkbox" name="Sub" value="true"><br />
+		<label>Applicant Name:</label><br />
+		<input type="text" name="AppName"><br />
+		<label>Applicant Title:</label><br />
+		<input type="text" name="AppTitle"><br />
+		<label>Applicant Company:</label><br />
+		<input type="text" name="AppCompany"><br />
+		<label>Applicant Address:</label><br />
+		<input type="text" name="AppAdd"><br />
+		<label>Applicant city, state and zip:</label><br />
+		<input type="text" name="AppCSZ"><br />
+		<label>Project Name:</label><br />
+		<input type="text" name="ProjectName"><br />
+		<label>Approved:</label><br />
+		<input type="checkbox" name="Approved" value="true"><br />
+		<label>Grading Permit Required:</label><br />
+		<input type="checkbox" name="GP" value="true"><br />
+		<label>Franchise Agreement Required:</label><br />
+		<input type="checkbox" name="Franchise" value="true"><br />
+		<label>Stormwater Detention Applicable:</label><br />
+		<input type="checkbox" name="Storm" value="true"><br />
+		<label>Retaining Wall:</label><br />
+		<input type="checkbox" name="Wall" value="true"><br />
+		<input type="submit" value="Go!">
+	</form>
+</div>
+</div>
+</body>
+</html>
