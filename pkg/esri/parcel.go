@@ -189,6 +189,9 @@ func GetRing(p pResponse) Ring {
 // MakeEnvelope takes a geometry ring and a buffer radius (relative distance) as arguments, then calculates a rectangular bounding box which encloses the ring enlarged by the buffer
 // TODO: This needs a sensible failure mechanism
 func MakeEnvelope(ring Ring, r float64) Envelope {
+	if len(Ring) == 0 || len(Ring[0]) == 0 {
+		return Envelope{}
+	}
 	// set max and min to first X,Y values, respectively
 	xmin, xmax := ring[0][0], ring[0][0]
 	ymin, ymax := ring[0][1], ring[0][1]
