@@ -2,12 +2,14 @@ package main
 
 import (
 	"fmt"
-	"os"
-	"github.com/skreimeyer/PlanReview/pkg/comment"
-	"github.com/skreimeyer/PlanReview/pkg/esri"
 	"html/template"
 	"net/http"
+	"os"
+	"regexp"
 	"strconv"
+
+	"github.com/skreimeyer/PlanReview/pkg/comment"
+	"github.com/skreimeyer/PlanReview/pkg/esri"
 )
 
 //go:generate go run /usr/local/go/src/crypto/tls/generate_cert.go -host "FIXME"
@@ -56,14 +58,38 @@ func main() {
 			Storm:       stm,
 			Wall:        wl,
 		}
-		// Geocode
-		gc, err := esri.Geocode(r.FormValue("Address")) //esri.Location
+		// Check Address for being PID-like
+		match, err := regexp.MatchString(`\d{2}L\d+`, r.FormValue("Address"))
 		if err != nil {
-			res.Warnings = append(res.Warnings, "Failed to geocode.", err.Error())
+			res.Warnings = append(res.Warnings, "Regex test failed.", err.Error())
 		}
-		par, err := esri.FetchParcel(gc) //esri.Parcel
-		if err != nil {
-			res.Warnings = append(res.Warnings, "Failed to fetch parcel data.", err.Error())
+		//init
+		var gc esri.Location
+		var par esri.PResponse
+		if match {
+			par, err = esri.FetchByPID(r.FormValue("Address"))
+			if err != nil {
+				res.Warnings = append(res.Warnings, "Parcel lookup failed.", err.Error())
+			}
+			ring := esri.GetRing(par)
+			x, y := 0.0, 0.0
+			for i := range ring {
+				x += ring[i][0]
+				y += ring[i][1]
+			}
+			x = x / float64(len(ring))
+			y = y / float64(len(ring))
+			gc = esri.Location{X: x, Y: y}
+		} else {
+			// Geocode
+			gc, err = esri.Geocode(r.FormValue("Address")) //esri.Location
+			if err != nil {
+				res.Warnings = append(res.Warnings, "Failed to geocode.", err.Error())
+			}
+			par, err = esri.FetchParcel(gc) //esri.Parcel
+			if err != nil {
+				res.Warnings = append(res.Warnings, "Failed to fetch parcel data.", err.Error())
+			}
 		}
 		acr := 0.0
 		if len(par.Features) >= 1 {
@@ -120,6 +146,7 @@ func main() {
 	port := os.Getenv("PORT")
 	fmt.Println("serving...")
 	err := http.ListenAndServe(":"+port, nil)
+	// err := http.ListenAndServe(":8080", nil) // UNCOMMENT FOR TESTING ONLY
 	if err != nil {
 		fmt.Println(err)
 	}

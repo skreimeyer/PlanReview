@@ -106,7 +106,9 @@ type features struct {
 	Geometry   geometry   `json:"geometry"`
 }
 
-type pResponse struct {
+// PResponse is a wrapper for the response to queries to the esri server for
+// parcel data.
+type PResponse struct {
 	Displayfieldname string           `json:"displayFieldName"`
 	Fieldaliases     fieldAliases     `json:"fieldAliases"`
 	Geometrytype     string           `json:"geometryType"`
@@ -114,7 +116,8 @@ type pResponse struct {
 	Features         []features       `json:"features"`
 }
 
-// Envelope is a pair of coordinate points which describe the lower-left and upper-right corners of a rectangle on a map.
+// Envelope is a pair of coordinate points which describe the lower-left and
+// upper-right corners of a rectangle on a map.
 type Envelope struct {
 	Min Point
 	Max Point
@@ -133,8 +136,8 @@ type Ring [][]float64
 // ESRI "ring" object given by the PAGIS REST API. A ring is a 2-dimensional
 // array of x,y coordinates which describe the points of a (irregular) polygon.
 // FetchParcel also retunrs a float64 (acres) because
-func FetchParcel(loc Location) (pResponse, error) {
-	var parcel pResponse // initialize for early return
+func FetchParcel(loc Location) (PResponse, error) {
+	var parcel PResponse // initialize for early return
 	parcelURL, err := url.Parse("https://pagis.org/arcgis/rest/services/APPS/OperationalLayers/MapServer/52/query")
 	if err != nil {
 		return parcel, err
@@ -179,14 +182,16 @@ func FetchParcel(loc Location) (pResponse, error) {
 
 // GetRing probably doesn't need to be its own function. Really just here for
 // ease of refactoring...
-func GetRing(p pResponse) Ring {
+func GetRing(p PResponse) Ring {
 	if len(p.Features) > 0 && len(p.Features[0].Geometry.Rings) > 0 {
 		return p.Features[0].Geometry.Rings[0]
 	}
 	return Ring{}
 }
 
-// MakeEnvelope takes a geometry ring and a buffer radius (relative distance) as arguments, then calculates a rectangular bounding box which encloses the ring enlarged by the buffer
+// MakeEnvelope takes a geometry ring and a buffer radius (relative distance) as
+//  arguments, then calculates a rectangular bounding box which encloses the
+// ring enlarged by the buffer
 // TODO: This needs a sensible failure mechanism
 func MakeEnvelope(ring Ring, r float64) Envelope {
 	if len(ring) == 0 || len(ring[0]) == 0 {
@@ -220,7 +225,9 @@ func MakeEnvelope(ring Ring, r float64) Envelope {
 	return Envelope{Point{exMin, eyMin}, Point{exMax, eyMax}}
 }
 
-// FetchMap takes ring geometry as an argument, calculates the coordinates of an envelope with a 10% buffer and makes a GET request to the PAGIS server for a png image of the area.
+// FetchMap takes ring geometry as an argument, calculates the coordinates of an
+// envelope with a 10% buffer and makes a GET request to the PAGIS server for a
+// png image of the area.
 func FetchMap(e Envelope) image.Image {
 	mapURL, err := url.Parse("https://www.pagis.org/arcgis/rest/services/MAPS/AerialPhotos2018/MapServer/export")
 	if err != nil {
@@ -243,4 +250,47 @@ func FetchMap(e Envelope) image.Image {
 		panic(err)
 	}
 	return mapImg
+}
+
+// FetchByPID is an analog of FetchParcel; however, instead of taking a location
+// it takes a parcel ID string
+func FetchByPID(id string) (PResponse, error) {
+	var parcel PResponse // initialize for early return
+	parcelURL, err := url.Parse("https://pagis.org/arcgis/rest/services/APPS/OperationalLayers/MapServer/52/query")
+	if err != nil {
+		return parcel, err
+	}
+	// TODO: discard all the cruft
+	params := url.Values{}
+	params.Add("f", "json")
+	params.Add("spatialRel", "esriSpatialRelIntersects")
+	params.Add("returnGeometry", "true")
+	params.Add("where", fmt.Sprint("Upper(PARCEL_ID) LIKE Upper('%"+id+"%')"))
+	params.Add("outFields", "OBJECTID,PARCEL_ID,PARCEL_LGL,SRCE_DATE,OW_NAME,OW_ADD,OW_ADD2,OW_CITY,OW_STATE,OW_ZIP,PH_RD_NUM,PH_PRE_DIR,PH_RD_NAM,PH_RD_TYP,PH_UNIT,PH_CTY_NM,PH_ZIP,PH_ADD,TYPE,ASSESS_VAL,IMP_VAL,LAND_VAL,TOTAL_VAL,ASSESS_DAT,NBHD,S_T_R,SCHL_CODE,ACRE_AREA,SUB_NAME,LOT,BLOCK,CAMA_DATE,CALC_ACRE,Shape_Length,Shape_Area,GIS_PIN,CAMA_PIN,IMP_COUNT,SCHL_DESC,PROPLOOKUP")
+	params.Add("outSR", "102651")
+	params.Add("callback", "dojo_request_script_callbacks.dojo_request_script76")
+
+	parcelURL.RawQuery = params.Encode()
+
+	res, err := http.Get(parcelURL.String())
+	if err != nil {
+		return parcel, err
+	}
+	parcelData, err := ioutil.ReadAll(res.Body)
+	res.Body.Close()
+	if err != nil {
+		return parcel, err
+	}
+
+	// scrape off the dojo junk from our JSON
+	i := bytes.IndexRune(parcelData, '{')
+	t := bytes.IndexRune(parcelData, ';') - 1
+
+	parcelData = parcelData[i:t]
+
+	err = json.Unmarshal(parcelData, &parcel)
+	if err != nil {
+		return parcel, err
+	}
+	return parcel, nil // TODO: handle multiple rings
 }
