@@ -1,0 +1,19 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "1nFEWhQELKqb0Q4rdNRI3Ph/nHY=",
+			"path": "github.com/skreimeyer/PlanReview/pkg/comment",
+			"revision": "9a85b70ea6a9046480ad16db09efe562c9955a36",
+			"revisionTime": "2019-07-03T00:45:08Z"
+		},
+		{
+			"checksumSHA1": "NtgfatCnSsqC6DYWg04JTj5BD4s=",
+			"path": "github.com/skreimeyer/PlanReview/pkg/esri",
+			"revision": "9a85b70ea6a9046480ad16db09efe562c9955a36",
+			"revisionTime": "2019-07-03T00:45:08Z"
+		}
+	],
+	"rootPath": "github.com/skreimeyer/PlanReview"
+}
