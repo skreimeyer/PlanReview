@@ -21,7 +21,7 @@ func TestGeocode(t *testing.T) {
 func TestParcel(t *testing.T) {
 	precision := 1.0
 	ring := [][]float64{{1229652.12, 151364.85}, {1229614.06, 151350.96}, {1229353.22, 151395.22}, {1229376.18, 151533.24}, {1229671.79, 151483.09}, {1229652.12, 151364.85}}
-	cityHall := Geocode("500 W Markham")
+	cityHall, _ := Geocode("500 W Markham")
 	pr, _ := FetchParcel(cityHall)
 	r := GetRing(pr)
 	for i := range r {
