@@ -9,13 +9,6 @@ import (
 )
 
 type transfieldAliases struct {
-	Objectid   string `json:"OBJECTID"`
-	Mapname    string `json:"MapName"`
-	Altdes     string `json:"AltDes"`
-	ScaddType  string `json:"SCADD_Type"`
-	Editdate   string `json:"EditDate"`
-	Editorname string `json:"EditorName"`
-	ShapeLen   string `json:"Shape.len"`
 }
 
 type transspatialReference struct {

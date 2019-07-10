@@ -9,19 +9,6 @@ import (
 )
 
 type fmFieldAliases struct {
-	Objectid                                       string `json:"OBJECTID"`
-	FldZone                                        string `json:"FLD_ZONE"`
-	Legend                                         string `json:"LEGEND"`
-	Panel                                          string `json:"PANEL"`
-	FirmPan                                        string `json:"FIRM_PAN"`
-	FloodplainadministratorcontactsCityname        string `json:"FloodplainAdministratorContacts_CityName"`
-	FloodplainadministratorcontactsFloodplainadmin string `json:"FloodplainAdministratorContacts_FloodplainAdmin"`
-	FloodplainadministratorcontactsPhone           string `json:"FloodplainAdministratorContacts_Phone"`
-	FloodplainadministratorcontactsEmail           string `json:"FloodplainAdministratorContacts_Email"`
-	OwName                                         string `json:"OW_NAME"`
-	Proplookup                                     string `json:"PROPLOOKUP"`
-	OrigFid                                        string `json:"ORIG_FID"`
-	FidUnionfloodzonespanelsparcels                string `json:"FID_UnionFloodZonesPanelsParcels"`
 }
 
 type fmSpatialReference struct {

@@ -11,47 +11,8 @@ import (
 	"net/url"
 )
 
+// These are unimportant
 type fieldAliases struct {
-	Objectid    string `json:"OBJECTID"`
-	ParcelID    string `json:"PARCEL_ID"`
-	ParcelLgl   string `json:"PARCEL_LGL"`
-	SrceDate    string `json:"SRCE_DATE"`
-	OwName      string `json:"OW_NAME"`
-	OwAdd       string `json:"OW_ADD"`
-	OwAdd2      string `json:"OW_ADD2"`
-	OwCity      string `json:"OW_CITY"`
-	OwState     string `json:"OW_STATE"`
-	OwZip       string `json:"OW_ZIP"`
-	PhRdNum     string `json:"PH_RD_NUM"`
-	PhPreDir    string `json:"PH_PRE_DIR"`
-	PhRdNam     string `json:"PH_RD_NAM"`
-	PhRdTyp     string `json:"PH_RD_TYP"`
-	PhUnit      string `json:"PH_UNIT"`
-	PhCtyNm     string `json:"PH_CTY_NM"`
-	PhZip       string `json:"PH_ZIP"`
-	PhAdd       string `json:"PH_ADD"`
-	Type        string `json:"TYPE"`
-	AssessVal   string `json:"ASSESS_VAL"`
-	ImpVal      string `json:"IMP_VAL"`
-	LandVal     string `json:"LAND_VAL"`
-	TotalVal    string `json:"TOTAL_VAL"`
-	AssessDat   string `json:"ASSESS_DAT"`
-	Nbhd        string `json:"NBHD"`
-	STR         string `json:"S_T_R"`
-	SchlCode    string `json:"SCHL_CODE"`
-	AcreArea    string `json:"ACRE_AREA"`
-	SubName     string `json:"SUB_NAME"`
-	Lot         string `json:"LOT"`
-	Block       string `json:"BLOCK"`
-	CamaDate    string `json:"CAMA_DATE"`
-	CalcAcre    string `json:"CALC_ACRE"`
-	ShapeLength string `json:"Shape_Length"`
-	ShapeArea   string `json:"Shape_Area"`
-	GisPin      string `json:"GIS_PIN"`
-	CamaPin     string `json:"CAMA_PIN"`
-	ImpCount    string `json:"IMP_COUNT"`
-	SchlDesc    string `json:"SCHL_DESC"`
-	Proplookup  string `json:"PROPLOOKUP"`
 }
 
 type attributes struct {

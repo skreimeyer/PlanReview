@@ -82,11 +82,17 @@ func TestTrans(t *testing.T) {
 	target := []Street{
 		Street{
 			"FAIR PARK BLVD",
-			"MINOR ARTERIAL",
+			MinorArterial,
+			90,
+			true,
+			true,
 		},
 		Street{
-			"W 20TH ST",
-			"COLLECTOR",
+			"W 28TH ST",
+			Collector,
+			60,
+			false,
+			false,
 		},
 	}
 	if !func(s []Street, t Street) bool {
@@ -97,6 +103,6 @@ func TestTrans(t *testing.T) {
 		}
 		return false
 	}(streets, target[0]) {
-		t.Errorf("transportation test failed. Target: %s\t Fetched: %s", target, streets)
+		t.Errorf("transportation test failed. Target: %v\t Fetched: %v", target, streets)
 	}
 }
