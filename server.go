@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
-	"os"
 	"regexp"
 	"strconv"
 
@@ -143,7 +142,8 @@ func main() {
 	})
 
 	// Serve
-	port := os.Getenv("PORT")
+	// port := os.Getenv("PORT")
+	port := "8080" // uncomment for testing
 	fmt.Println("serving...")
 	err := http.ListenAndServe(":"+port, nil)
 	// err := http.ListenAndServe(":8080", nil) // UNCOMMENT FOR TESTING ONLY

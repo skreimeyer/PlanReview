@@ -12,30 +12,6 @@ import (
 // STRUCTS FOR CASE FILE ONLY
 
 type casefieldAliases struct {
-	GisLrGisplanZNumberObjectid1                string `json:"GIS_LR.GISPLAN.Z_Number.OBJECTID_1"`
-	GisLrGisplanZNumberObjectid                 string `json:"GIS_LR.GISPLAN.Z_Number.OBJECTID"`
-	GisLrGisplanZNumberLabel                    string `json:"GIS_LR.GISPLAN.Z_Number.LABEL"`
-	GisLrGisplanZNumberLinkznum                 string `json:"GIS_LR.GISPLAN.Z_Number.LinkZnum"`
-	GisLrGisplanZNumberLastupdate               string `json:"GIS_LR.GISPLAN.Z_Number.LastUpdate"`
-	GisLrGisplanZNumberEditorname               string `json:"GIS_LR.GISPLAN.Z_Number.EditorName"`
-	GisLrGisplanZoningInputObjectid             string `json:"GIS_LR.GISPLAN.Zoning_Input.OBJECTID"`
-	GisLrGisplanZoningInputZNumber              string `json:"GIS_LR.GISPLAN.Zoning_Input.Z_Number"`
-	GisLrGisplanZoningInputZonedFrom            string `json:"GIS_LR.GISPLAN.Zoning_Input.Zoned_From"`
-	GisLrGisplanZoningInputZonedTo              string `json:"GIS_LR.GISPLAN.Zoning_Input.Zoned_To"`
-	GisLrGisplanZoningInputOtherZNumbers        string `json:"GIS_LR.GISPLAN.Zoning_Input.Other_Z_Numbers"`
-	GisLrGisplanZoningInputConditionalUse       string `json:"GIS_LR.GISPLAN.Zoning_Input.Conditional_Use"`
-	GisLrGisplanZoningInputAnyConditions        string `json:"GIS_LR.GISPLAN.Zoning_Input.Any_Conditions"`
-	GisLrGisplanZoningInputOrdinanceNumber      string `json:"GIS_LR.GISPLAN.Zoning_Input.Ordinance_Number"`
-	GisLrGisplanZoningInputAreaZoned            string `json:"GIS_LR.GISPLAN.Zoning_Input.Area_Zoned"`
-	GisLrGisplanZoningInputMultipleActions      string `json:"GIS_LR.GISPLAN.Zoning_Input.Multiple_Actions"`
-	GisLrGisplanZoningInputIssueActionRequested string `json:"GIS_LR.GISPLAN.Zoning_Input.Issue_Action_Requested"`
-	GisLrGisplanZoningInputLocation             string `json:"GIS_LR.GISPLAN.Zoning_Input.Location"`
-	GisLrGisplanZoningInputOtherZoneCategories  string `json:"GIS_LR.GISPLAN.Zoning_Input.Other_Zone_Categories"`
-	GisLrGisplanZoningInputVariance             string `json:"GIS_LR.GISPLAN.Zoning_Input.Variance"`
-	GisLrGisplanZoningInputApproved             string `json:"GIS_LR.GISPLAN.Zoning_Input.Approved"`
-	GisLrGisplanZoningInputDateOfPcAction       string `json:"GIS_LR.GISPLAN.Zoning_Input.Date_of_PC_Action"`
-	GisLrGisplanZoningInputDateOfBoaAction      string `json:"GIS_LR.GISPLAN.Zoning_Input.Date_of_BOA_Action"`
-	GisLrGisplanZoningInputDateOfBoardAction    string `json:"GIS_LR.GISPLAN.Zoning_Input.Date_of_Board_Action"`
 }
 
 type casespatialReference struct {
@@ -50,30 +26,7 @@ type casefields struct {
 }
 
 type caseattributes struct {
-	GisLrGisplanZNumberObjectid1                int    `json:"GIS_LR.GISPLAN.Z_Number.OBJECTID_1"`
-	GisLrGisplanZNumberObjectid                 int    `json:"GIS_LR.GISPLAN.Z_Number.OBJECTID"`
-	GisLrGisplanZNumberLabel                    string `json:"GIS_LR.GISPLAN.Z_Number.LABEL"`
-	GisLrGisplanZNumberLinkznum                 string `json:"GIS_LR.GISPLAN.Z_Number.LinkZnum"`
-	GisLrGisplanZNumberLastupdate               int    `json:"GIS_LR.GISPLAN.Z_Number.LastUpdate"`
-	GisLrGisplanZNumberEditorname               string `json:"GIS_LR.GISPLAN.Z_Number.EditorName"`
-	GisLrGisplanZoningInputObjectid             int    `json:"GIS_LR.GISPLAN.Zoning_Input.OBJECTID"`
-	GisLrGisplanZoningInputZNumber              string `json:"GIS_LR.GISPLAN.Zoning_Input.Z_Number"`
-	GisLrGisplanZoningInputZonedFrom            string `json:"GIS_LR.GISPLAN.Zoning_Input.Zoned_From"`
-	GisLrGisplanZoningInputZonedTo              string `json:"GIS_LR.GISPLAN.Zoning_Input.Zoned_To"`
-	GisLrGisplanZoningInputOtherZNumbers        int    `json:"GIS_LR.GISPLAN.Zoning_Input.Other_Z_Numbers"`
-	GisLrGisplanZoningInputConditionalUse       int    `json:"GIS_LR.GISPLAN.Zoning_Input.Conditional_Use"`
-	GisLrGisplanZoningInputAnyConditions        int    `json:"GIS_LR.GISPLAN.Zoning_Input.Any_Conditions"`
-	GisLrGisplanZoningInputOrdinanceNumber      string `json:"GIS_LR.GISPLAN.Zoning_Input.Ordinance_Number"`
-	GisLrGisplanZoningInputAreaZoned            string `json:"GIS_LR.GISPLAN.Zoning_Input.Area_Zoned"`
-	GisLrGisplanZoningInputMultipleActions      int    `json:"GIS_LR.GISPLAN.Zoning_Input.Multiple_Actions"`
-	GisLrGisplanZoningInputIssueActionRequested string `json:"GIS_LR.GISPLAN.Zoning_Input.Issue_Action_Requested"`
-	GisLrGisplanZoningInputLocation             string `json:"GIS_LR.GISPLAN.Zoning_Input.Location"`
-	GisLrGisplanZoningInputOtherZoneCategories  int    `json:"GIS_LR.GISPLAN.Zoning_Input.Other_Zone_Categories"`
-	GisLrGisplanZoningInputVariance             int    `json:"GIS_LR.GISPLAN.Zoning_Input.Variance"`
-	GisLrGisplanZoningInputApproved             int    `json:"GIS_LR.GISPLAN.Zoning_Input.Approved"`
-	GisLrGisplanZoningInputDateOfPcAction       string `json:"GIS_LR.GISPLAN.Zoning_Input.Date_of_PC_Action"`
-	GisLrGisplanZoningInputDateOfBoaAction      int    `json:"GIS_LR.GISPLAN.Zoning_Input.Date_of_BOA_Action"`
-	GisLrGisplanZoningInputDateOfBoardAction    string `json:"GIS_LR.GISPLAN.Zoning_Input.Date_of_Board_Action"`
+	GisLrGisplanZNumberLabel string `json:"GIS_LR.GISPLAN.Z_Number.LABEL"`
 }
 
 type casegeometry struct {
@@ -98,21 +51,6 @@ type caseFiles struct {
 // STRUCTS FOR ZONING QUERY
 
 type zoningfieldAliases struct {
-	GisLrGisplanZoningPolyObjectid   string `json:"GIS_LR.GISPLAN.Zoning_Poly.OBJECTID"`
-	GisLrGisplanZoningPolyZoning     string `json:"GIS_LR.GISPLAN.Zoning_Poly.ZONING"`
-	GisLrGisplanZoningPolySymbol     string `json:"GIS_LR.GISPLAN.Zoning_Poly.SYMBOL"`
-	GisLrGisplanZoningPolyCup        string `json:"GIS_LR.GISPLAN.Zoning_Poly.CUP"`
-	GisLrGisplanZoningPolyAcres      string `json:"GIS_LR.GISPLAN.Zoning_Poly.ACRES"`
-	GisLrGisplanZoningPolyLastupdate string `json:"GIS_LR.GISPLAN.Zoning_Poly.LastUpdate"`
-	GisLrGisplanZoningPolyEditorname string `json:"GIS_LR.GISPLAN.Zoning_Poly.EditorName"`
-	ShapeArea                        string `json:"Shape.area"`
-	ShapeLen                         string `json:"Shape.len"`
-	ZoningDefinitionsObjectid        string `json:"Zoning_Definitions.OBJECTID"`
-	ZoningDefinitionsLabel           string `json:"Zoning_Definitions.LABEL"`
-	ZoningDefinitionsCategory        string `json:"Zoning_Definitions.CATEGORY"`
-	ZoningDefinitionsDetails1        string `json:"Zoning_Definitions.DETAILS_1"`
-	ZoningDefinitionsDetails2        string `json:"Zoning_Definitions.DETAILS_2"`
-	ZoningDefinitionsLinks           string `json:"Zoning_Definitions.LINKS"`
 }
 
 type zoningspatialReference struct {
@@ -127,21 +65,7 @@ type zoningfields struct {
 }
 
 type zoningattributes struct {
-	GisLrGisplanZoningPolyObjectid   int     `json:"GIS_LR.GISPLAN.Zoning_Poly.OBJECTID"`
-	GisLrGisplanZoningPolyZoning     string  `json:"GIS_LR.GISPLAN.Zoning_Poly.ZONING"`
-	GisLrGisplanZoningPolySymbol     int     `json:"GIS_LR.GISPLAN.Zoning_Poly.SYMBOL"`
-	GisLrGisplanZoningPolyCup        int     `json:"GIS_LR.GISPLAN.Zoning_Poly.CUP"`
-	GisLrGisplanZoningPolyAcres      float64 `json:"GIS_LR.GISPLAN.Zoning_Poly.ACRES"`
-	GisLrGisplanZoningPolyLastupdate int     `json:"GIS_LR.GISPLAN.Zoning_Poly.LastUpdate"`
-	GisLrGisplanZoningPolyEditorname string  `json:"GIS_LR.GISPLAN.Zoning_Poly.EditorName"`
-	ShapeArea                        float64 `json:"Shape.area"`
-	ShapeLen                         float64 `json:"Shape.len"`
-	ZoningDefinitionsObjectid        int     `json:"Zoning_Definitions.OBJECTID"`
-	ZoningDefinitionsLabel           string  `json:"Zoning_Definitions.LABEL"`
-	ZoningDefinitionsCategory        string  `json:"Zoning_Definitions.CATEGORY"`
-	ZoningDefinitionsDetails1        string  `json:"Zoning_Definitions.DETAILS_1"`
-	ZoningDefinitionsDetails2        string  `json:"Zoning_Definitions.DETAILS_2"`
-	ZoningDefinitionsLinks           string  `json:"Zoning_Definitions.LINKS"`
+	GisLrGisplanZoningPolyZoning string `json:"GIS_LR.GISPLAN.Zoning_Poly.ZONING"`
 }
 
 type zoninggeometry struct {
@@ -175,7 +99,7 @@ func FetchZone(l Location) (string, error) {
 	params := url.Values{}
 	params.Add("f", "json")
 	params.Add("returnGeometry", "true")
-	params.Add("outFields", "GIS_LR.GISPLAN.Zoning_Poly.OBJECTID,GIS_LR.GISPLAN.Zoning_Poly.ZONING,GIS_LR.GISPLAN.Zoning_Poly.SYMBOL,GIS_LR.GISPLAN.Zoning_Poly.CUP,GIS_LR.GISPLAN.Zoning_Poly.ACRES,GIS_LR.GISPLAN.Zoning_Poly.LastUpdate,GIS_LR.GISPLAN.Zoning_Poly.EditorName,GIS_LR.GISPLAN.Zoning_Poly.Shape,Shape.area,Shape.len,Zoning_Definitions.OBJECTID,Zoning_Definitions.LABEL,Zoning_Definitions.CATEGORY,Zoning_Definitions.DETAILS_1,Zoning_Definitions.DETAILS_2,Zoning_Definitions.LINKS")
+	params.Add("outFields", "GIS_LR.GISPLAN.Zoning_Poly.ZONING")
 	params.Add("maxAllowableOffset", "1")
 	geomString := fmt.Sprintf("{\"xmin\":%f,\"ymin\":%f,\"xmax\":%f,\"ymax\":%f,\"spatialReference\":{\"wkid\":102651,\"latestWkid\":3433}}", l.X, l.Y, l.X+13, l.Y+13) // spatialReference will not change
 	params.Add("geometry", geomString)
@@ -225,7 +149,7 @@ func FetchCases(e Envelope) (string, error) {
 	params := url.Values{}
 	params.Add("f", "json")
 	params.Add("returnGeometry", "true")
-	params.Add("outFields", "GIS_LR.GISPLAN.Z_Number.OBJECTID_1,GIS_LR.GISPLAN.Z_Number.OBJECTID,GIS_LR.GISPLAN.Z_Number.LABEL,GIS_LR.GISPLAN.Z_Number.LinkZnum,GIS_LR.GISPLAN.Z_Number.LastUpdate,GIS_LR.GISPLAN.Z_Number.EditorName,GIS_LR.GISPLAN.Z_Number.Shape,GIS_LR.GISPLAN.Zoning_Input.OBJECTID,GIS_LR.GISPLAN.Zoning_Input.Z_Number,GIS_LR.GISPLAN.Zoning_Input.Zoned_From,GIS_LR.GISPLAN.Zoning_Input.Zoned_To,GIS_LR.GISPLAN.Zoning_Input.Other_Z_Numbers,GIS_LR.GISPLAN.Zoning_Input.Conditional_Use,GIS_LR.GISPLAN.Zoning_Input.Any_Conditions,GIS_LR.GISPLAN.Zoning_Input.Ordinance_Number,GIS_LR.GISPLAN.Zoning_Input.Area_Zoned,GIS_LR.GISPLAN.Zoning_Input.Multiple_Actions,GIS_LR.GISPLAN.Zoning_Input.Issue_Action_Requested,GIS_LR.GISPLAN.Zoning_Input.Location,GIS_LR.GISPLAN.Zoning_Input.Other_Zone_Categories,GIS_LR.GISPLAN.Zoning_Input.Variance,GIS_LR.GISPLAN.Zoning_Input.Approved,GIS_LR.GISPLAN.Zoning_Input.Date_of_PC_Action,GIS_LR.GISPLAN.Zoning_Input.Date_of_BOA_Action,GIS_LR.GISPLAN.Zoning_Input.Date_of_Board_Action")
+	params.Add("outFields", "GIS_LR.GISPLAN.Z_Number.LABEL,")
 	params.Add("maxAllowableOffset", "2")
 	geomString := fmt.Sprintf("{\"xmin\":%f,\"ymin\":%f,\"xmax\":%f,\"ymax\":%f,\"spatialReference\":{\"wkid\":102651,\"latestWkid\":3433}}", e.Min.X, e.Min.Y, e.Max.X, e.Max.Y) // spatialReference will not change
 	params.Add("geometry", geomString)
